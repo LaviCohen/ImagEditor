@@ -1,5 +1,7 @@
 package log;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -36,6 +38,19 @@ public class Logger {
 		});
 		System.setOut(logger);
 		System.setErr(errorLogger);
+	}
+	public static void exportTo(File f) {
+		PrintStream ps = null;
+		try {
+			ps = new PrintStream(f);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ps.println("Error Log:");
+		ps.println(getErrorLog());
+		ps.println("Standart Log:");
+		ps.println(getLog());
 	}
 	public static String getLog() {
 		return log.toString();

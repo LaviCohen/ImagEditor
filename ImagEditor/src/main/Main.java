@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 import components.Board;
 import components.LSlider;
 import components.ShapeList;
+import log.Logger;
 import shapes.Picture;
 import shapes.Rectagle;
 import shapes.Shape;
@@ -45,6 +46,7 @@ public class Main {
 		}
 	};
 	public static void main(String[] args) {
+		Logger.initializeLogger();
 		initJMenuBar();
 		board = new Board(Color.WHITE, 1000, 600);
 		board.paintShapes();

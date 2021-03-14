@@ -57,8 +57,10 @@ public class Board extends JLabel{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if (shapeInFocus != null) {
-					shapeInFocus.setX(e.getXOnScreen() - firstX);
-					shapeInFocus.setY(e.getYOnScreen() - firstY);
+					shapeInFocus.setX(e.getXOnScreen() - firstX + shapeInFocus.getX());
+					shapeInFocus.setY(e.getYOnScreen() - firstY + shapeInFocus.getY());
+					firstX = e.getXOnScreen();
+					firstY = e.getYOnScreen();
 					Main.board.paintShapes();
 				}
 			}

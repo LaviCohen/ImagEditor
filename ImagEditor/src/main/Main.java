@@ -29,8 +29,8 @@ import shapes.Shape;
 import shapes.Text;
 
 public class Main {
-	public static final double version = 8.0;
-	public static JFrame f = new JFrame("PicturEditor v" + version);
+	public static final double version = 1.0;
+	public static JFrame f = new JFrame("ImageEditor v" + version);
 	public static Board board;
 	public static JPanel shapeListPanel = new JPanel(new BorderLayout());
 	public static ShapeList shapeList;

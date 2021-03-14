@@ -1,6 +1,6 @@
 ImagEditor - Powerfull images editing software
 
-Java Swing based desktop application
+GUI interface - Java Swing library
 
 
 All copyrights reserved to Lavi Cohen (lavicohen78@gmail.com)

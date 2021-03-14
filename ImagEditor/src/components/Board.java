@@ -94,7 +94,7 @@ public class Board extends JLabel{
 		return shapes;
 	}
 	public void addShape(Shape shape) {
-		System.out.println("Add " + shape.getName() + "to the board");
+		System.out.println("Add " + shape.getName() + " to the board");
 		shapes.add(shape);
 		Main.updateShapeList();
 	}

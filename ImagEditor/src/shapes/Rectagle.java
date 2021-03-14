@@ -90,6 +90,7 @@ public class Rectagle extends Shape{
 					cur.width = width;
 					cur.height = height;
 					cur.color = color;
+					Main.shapeList.updateImage(cur);
 					editDialog.dispose();
 					Main.board.paintShapes();
 				} catch (Exception e2) {

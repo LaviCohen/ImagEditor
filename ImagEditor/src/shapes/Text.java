@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,6 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 
+import components.LSearchableComboBox;
+import components.LSearchableComboBox.Styler;
+import components.LSearchableComboBox.StylingManager;
 import main.Main;
 
 public class Text extends Shape{
@@ -64,13 +66,25 @@ public class Text extends Shape{
 		colorLabel.setOpaque(true);
 		colorLabel.setBackground(color);
 		colorPanel.add(colorLabel);
+		
+		
 		JPanel fontPanel = new JPanel(new BorderLayout());
 		fontPanel.add(new JLabel("font:"), BorderLayout.WEST);
 		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		JComboBox<String> fontsBox = new JComboBox<String>(fonts);
-		fontsBox.setSelectedItem(this.font.getFontName());
+//		JComboBox<String> fontsBox = new JComboBox<String>(fonts);
+		LSearchableComboBox<String> fontsBox = new LSearchableComboBox<String>(fonts, 0, 
+				new StylingManager() {
+			
+			@Override
+			public Styler getStylerFor(Object source) {
+				return new Styler(source, source + "       ABCDE", source.toString(), Color.BLACK);
+			}
+		});
+		fontsBox.setSelectedItem(this.font.getFamily());
 		fontPanel.add(fontsBox);
 		editDialog.add(fontPanel);
+		
+		
 		JPanel fontProps = new JPanel(new BorderLayout());
 		fontProps.add(new JLabel("size:"), BorderLayout.WEST);
 		JSlider slider = new JSlider(0, 100, this.font.getSize());
@@ -83,7 +97,7 @@ public class Text extends Shape{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				colorLabel.setBackground(JColorChooser.showDialog(editDialog, "Choose Rectagle color", color));
+				colorLabel.setBackground(JColorChooser.showDialog(editDialog, "Choose Text color", color));
 			}
 		});
 		colorPanel.add(setColorButton, BorderLayout.EAST);
@@ -108,6 +122,7 @@ public class Text extends Shape{
 					cur.color = color;
 					cur.font = new Font(fontName, bold?Font.BOLD:Font.PLAIN, size);
 					editDialog.dispose();
+					Main.shapeList.updateImage(cur);
 					Main.board.paintShapes();
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(Main.f, "Invalid input", "Error", JOptionPane.ERROR_MESSAGE);

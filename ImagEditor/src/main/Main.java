@@ -43,7 +43,7 @@ public class Main {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
-			System.out.println("Menu Event [" + command + "] in " + e.getWhen());
+			System.out.println("Menu Event [" + command + "]");
 			Actions.action(command);
 		}
 	};

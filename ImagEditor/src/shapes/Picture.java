@@ -124,6 +124,7 @@ public class Picture extends Shape{
 					cur.y = y;
 					cur.width = width;
 					cur.height = height;
+					Main.shapeList.updateImage(cur);
 					editDialog.dispose();
 					Main.board.paintShapes();
 				} catch (Exception e2) {

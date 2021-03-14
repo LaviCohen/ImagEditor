@@ -28,6 +28,8 @@ public class ShapeList extends JPanel{
 	public static class ShapePanel extends JPanel{
 		private static final long serialVersionUID = 1L;
 		public Shape shape;
+		public static int displayWidth = 30;
+		public static int displayHeight = 30;
 		public ShapePanel(Shape shape, ShapeList shapeList) {
 			super(new BorderLayout());
 			this.shape = shape;
@@ -81,29 +83,26 @@ public class ShapeList extends JPanel{
 					}
 				}
 			});
-			this.add(getSmallImage(shape, 30, 30), BorderLayout.WEST);
+			this.add(getSmallImage(shape), BorderLayout.WEST);
 		}
-		public static JPanel getSmallImage(Shape s, int width, int height) {
-			BufferedImage bf = new BufferedImage(s.getWidthOnBoard(), s.getHeightOnBoard(), BufferedImage.TYPE_INT_ARGB);
-			s.draw(bf.getGraphics());
-			BufferedImage display = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		public static JPanel getSmallImage(Shape s) {
+			int shapeWidth = s.getWidthOnBoard();
+			int shapeHeight = s.getHeightOnBoard();
+			int max = Math.max(shapeWidth, shapeHeight);
+			BufferedImage display = new BufferedImage(max, max, BufferedImage.TYPE_INT_ARGB);
+			int x = s.getX();
+			int y = s.getY();
+			s.setY(0);
+			s.setX(0);
 			Graphics g = display.getGraphics();
 			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, width, height);
-			int realWidth;
-			int realHeight;
-			double ratio;
-			if (bf.getWidth() > bf.getHeight()) {
-				ratio = ((double)width)/bf.getWidth();
-			}else {
-				ratio = ((double)height)/bf.getHeight();
-			}
-			realWidth = (int)(width/ratio);
-			realHeight = (int)(height/ratio);
-			g.drawImage(Picture.getScaledImage(bf, realWidth, realHeight),
-					(width - realWidth)/2 - s.getX(), (height - realHeight)/2 - s.getY(), null);
+			g.fillRect(0, 0, max, max);
+			s.draw(g);
+			s.setX(x);
+			s.setY(y);
 			JPanel panel = new JPanel(new BorderLayout());
-			panel.add(new JLabel(new ImageIcon(display)));
+			panel.add(new JLabel(new ImageIcon(
+					Picture.getScaledImage(display, displayWidth, displayHeight))));
 			return panel;
 		}
 	}
@@ -142,5 +141,19 @@ public class ShapeList extends JPanel{
 			return null;
 		}
 		return selected.shape;
+	}
+	public void updateImage(Shape s) {
+		for (int i = 0; i < shapePanels.size(); i++) {
+			ShapePanel sp = shapePanels.get(i);
+			if (sp.shape == s) {
+				sp.remove(((BorderLayout)sp.getLayout()).getLayoutComponent(BorderLayout.WEST));
+				sp.add(ShapePanel.getSmallImage(s), BorderLayout.WEST);
+				sp.revalidate();
+				sp.repaint();
+				this.revalidate();
+				this.repaint();
+				break;
+			}
+		}
 	}
 }

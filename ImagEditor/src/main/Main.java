@@ -43,7 +43,7 @@ public class Main {
 			String command = e.getActionCommand();
 			Actions.action(command);
 		}
-	}; 
+	};
 	public static void main(String[] args) {
 		initJMenuBar();
 		board = new Board(Color.WHITE, 1000, 600);

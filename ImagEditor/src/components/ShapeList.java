@@ -81,7 +81,7 @@ public class ShapeList extends JPanel{
 					}
 				}
 			});
-//			this.add(getSmallImage(shape, 30, 30), BorderLayout.WEST);
+			this.add(getSmallImage(shape, 30, 30), BorderLayout.WEST);
 		}
 		public static JPanel getSmallImage(Shape s, int width, int height) {
 			BufferedImage bf = new BufferedImage(s.getWidthOnBoard(), s.getHeightOnBoard(), BufferedImage.TYPE_INT_ARGB);
@@ -101,7 +101,7 @@ public class ShapeList extends JPanel{
 			realWidth = (int)(width/ratio);
 			realHeight = (int)(height/ratio);
 			g.drawImage(Picture.getScaledImage(bf, realWidth, realHeight),
-					(width - realWidth)/2, (height - realHeight)/2, null);
+					(width - realWidth)/2 - s.getX(), (height - realHeight)/2 - s.getY(), null);
 			JPanel panel = new JPanel(new BorderLayout());
 			panel.add(new JLabel(new ImageIcon(display)));
 			return panel;

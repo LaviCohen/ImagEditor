@@ -75,6 +75,7 @@ public class Board extends JLabel{
 		paintShapes();
 	}
 	public void paintShapes() {
+		System.out.println("Board repainted");
 		paintShapes(display.getGraphics());
 	}
 	public void paintShapes(Graphics g) {
@@ -93,6 +94,7 @@ public class Board extends JLabel{
 		return shapes;
 	}
 	public void addShape(Shape shape) {
+		System.out.println("Add " + shape.getName() + "to the board");
 		shapes.add(shape);
 		Main.updateShapeList();
 	}

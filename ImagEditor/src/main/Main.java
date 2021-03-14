@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.Thread.UncaughtExceptionHandler;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -42,11 +43,20 @@ public class Main {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
+			System.out.println("Menu Event [" + command + "] in " + e.getWhen());
 			Actions.action(command);
 		}
 	};
 	public static void main(String[] args) {
 		Logger.initializeLogger();
+		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+			
+			@Override
+			public void uncaughtException(Thread t, Throwable e) {
+				Logger.errorCount++;
+				Logger.reportInLog((Exception) e, t);
+			}
+		});
 		initJMenuBar();
 		board = new Board(Color.WHITE, 1000, 600);
 		board.paintShapes();
@@ -153,6 +163,7 @@ public class Main {
 		f.add(shapeListPanel, BorderLayout.EAST);
 	}
 	public static void updateShapeList() {
+		System.out.println("Update shapeList");
 		Shape s = null;
 		if (shapeList != null) {
 			s = shapeList.getSelectedShape();

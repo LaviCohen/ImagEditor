@@ -232,9 +232,9 @@ public class Main {
 	public static void initJMenuBar() {
 		LMenu lMenu = new LMenu(new String[][] 
 				{
-			{"File", "Save", "Set Paper Size"},
-			{"Add", "Rectangle", "Text", "Picture"},
-			{"Edit", "Edit Layers"}
+			{"File", "Save#s", "Set Paper Size"},
+			{"Actions", "Edit#e", "Set Paper Size", "Refresh#r"},
+			{"Add", "Rectangle@r", "Text@t", "Picture@p"},
 				}
 		, menuListener);
 		f.setJMenuBar(lMenu);

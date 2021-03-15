@@ -24,7 +24,6 @@ import javax.swing.JTextField;
 import install.Install;
 import shapes.Picture;
 import shapes.Rectangle;
-import shapes.Shape;
 import shapes.Text;
 
 public class Actions {
@@ -40,8 +39,11 @@ public class Actions {
 			addText();
 		}else if (command.equals("Picture")) {
 			addPicture();
-		}else if (command.equals("edit layers")) {
-			editLayers();
+		}else if (command.equals("Edit")) {
+			edit();
+		}else if (command.equals("Refresh")) {
+			Main.board.repaint();
+			Main.updateShapeList();
 		}
 	}
 	public static void save() {
@@ -123,36 +125,20 @@ public class Actions {
 		Main.board.addShape(p);
 		p.edit();
 	}
-	public static void editLayers() {
-		JDialog layersDialog = new JDialog(Main.f);
-		layersDialog.setLayout(new BorderLayout());
-		JComboBox<Shape> comboBox = new JComboBox<Shape>(Main.board.shapes.toArray(new Shape[0]));
-		layersDialog.add(comboBox);
-		JPanel options = new JPanel(new GridLayout(1, 2));
-		JButton edit = new JButton("Edit");
-		edit.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				((Shape)comboBox.getSelectedItem()).edit();
-			}
-		});
-		options.add(edit);
-		JButton remove = new JButton("Remove");
-		remove.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(layersDialog, "Are you sure?") == JOptionPane.YES_OPTION) {
-					Main.board.shapes.remove(comboBox.getSelectedItem());
-					layersDialog.dispose();
-					Main.board.repaint();
-				}
-			}
-		});
-		options.add(remove);
-		layersDialog.add(options, BorderLayout.EAST);
-		layersDialog.pack();
-		layersDialog.setVisible(true);
+	public static void edit() {
+		if (Main.shapeList.getSelectedShape() == null) {
+			return;
+		}
+		Main.shapeList.getSelectedShape().edit();
+	}
+	public static void remove() {
+		if (Main.shapeList.getSelectedShape() == null) {
+			return;
+		}
+		if (JOptionPane.showConfirmDialog(Main.f, "Are you sure?") == JOptionPane.YES_OPTION) {
+			Main.board.getShapesList().remove(Main.shapeList.getSelectedShape());
+			Main.board.repaint();
+			Main.updateShapeList();
+		}
 	}
 }

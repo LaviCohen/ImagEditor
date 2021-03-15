@@ -125,7 +125,7 @@ public class Actions {
 	public static void editLayers() {
 		JDialog layersDialog = new JDialog(Main.f);
 		layersDialog.setLayout(new BorderLayout());
-		JComboBox<Shape> comboBox = new JComboBox<Shape>(Main.board.getShapesList().toArray(new Shape[0]));
+		JComboBox<Shape> comboBox = new JComboBox<Shape>(Main.board.shapes.toArray(new Shape[0]));
 		layersDialog.add(comboBox);
 		JPanel options = new JPanel(new GridLayout(1, 2));
 		JButton edit = new JButton("Edit");
@@ -143,9 +143,9 @@ public class Actions {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(layersDialog, "Are you sure?") == JOptionPane.YES_OPTION) {
-					Main.board.getShapesList().remove(comboBox.getSelectedItem());
+					Main.board.shapes.remove(comboBox.getSelectedItem());
 					layersDialog.dispose();
-					Main.board.paintShapes();
+					Main.board.repaint();
 				}
 			}
 		});

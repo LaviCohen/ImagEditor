@@ -123,7 +123,7 @@ public class Text extends Shape{
 					cur.font = new Font(fontName, bold?Font.BOLD:Font.PLAIN, size);
 					editDialog.dispose();
 					Main.shapeList.updateImage(cur);
-					Main.board.paintShapes();
+					Main.board.repaint();
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(Main.f, "Invalid input", "Error", JOptionPane.ERROR_MESSAGE);
 				}

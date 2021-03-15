@@ -126,7 +126,7 @@ public class Picture extends Shape{
 					cur.height = height;
 					Main.shapeList.updateImage(cur);
 					editDialog.dispose();
-					Main.board.paintShapes();
+					Main.board.repaint();
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(Main.f, "Invalid input", "Error", JOptionPane.ERROR_MESSAGE);
 				}

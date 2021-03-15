@@ -57,7 +57,7 @@ public class BlackAndWhiteEffect extends Effect{
 				greenStrength = green.getValue();
 				blueStrength = blue.getValue();
 				editBlackAwhiteDialog.dispose();
-				Main.board.paintShapes();
+				Main.board.repaint();
 			}
 		});
 		editBlackAwhiteDialog.add(done, BorderLayout.SOUTH);

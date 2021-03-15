@@ -60,7 +60,7 @@ public class Main {
 		});
 		initJMenuBar();
 		board = new Board(Color.WHITE, 1000, 600);
-		board.paintShapes();
+		board.repaint();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLayout(new BorderLayout());
 		boardScrollPane = new JScrollPane(board, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
@@ -80,7 +80,7 @@ public class Main {
 			
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				board.paintShapes();
+				board.repaint();
 			}
 		});
 		controlBar.add(zoomSlider, BorderLayout.WEST);
@@ -108,7 +108,7 @@ public class Main {
 			public void actionPerformed(ActionEvent arg0) {
 				if (shapeList.getSelectedShape() != null) {
 					board.getShapesList().remove(shapeList.getSelectedShape());
-					board.paintShapes();
+					board.repaint();
 					updateShapeList();
 				}
 			}
@@ -132,7 +132,7 @@ public class Main {
 					Shape up = board.getShapesList().get(upIndex);
 					board.getShapesList().set(upIndex, s);
 					board.getShapesList().set(sIndex, up);
-					board.paintShapes();
+					board.repaint();
 					updateShapeList();
 				}
 			}
@@ -156,7 +156,7 @@ public class Main {
 					Shape down = board.getShapesList().get(downIndex);
 					board.getShapesList().set(downIndex, s);
 					board.getShapesList().set(sIndex, down);
-					board.paintShapes();
+					board.repaint();
 					updateShapeList();
 				}
 			}

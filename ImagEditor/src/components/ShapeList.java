@@ -48,7 +48,7 @@ public class ShapeList extends JPanel{
 						shape.setVisible(true);
 						showNhide.setText("Hide");
 					}
-					Main.board.paintShapes();
+					Main.board.repaint();
 					showNhide.repaint();
 				}
 			});

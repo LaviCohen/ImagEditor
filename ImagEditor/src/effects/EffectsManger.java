@@ -100,7 +100,7 @@ public class EffectsManger extends Effect{
 			@Override
 			public void componentHidden(ComponentEvent e) {
 				parent.lastDrawn = null;
-				Main.board.paintShapes();
+				Main.board.repaint();
 				Main.board.repaint();
 			}
 		});
@@ -137,7 +137,7 @@ public class EffectsManger extends Effect{
 				effects.remove(effect);
 				dialog.dispose();
 				parent.lastDrawn = null;
-				Main.board.paintShapes();
+				Main.board.repaint();
 			}
 		});
 		actionsPanel.add(remove);

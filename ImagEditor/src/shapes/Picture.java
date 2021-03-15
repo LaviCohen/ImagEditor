@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import effects.EffectsManger;
+import install.Install;
 import main.Main;
 
 public class Picture extends Shape{
@@ -91,7 +92,7 @@ public class Picture extends Shape{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = sourceField.getText().equals("don\'t change")?
-						new JFileChooser():new JFileChooser(new File(sourceField.getText()));
+						new JFileChooser(Install.getPath("Gallery")):new JFileChooser(new File(sourceField.getText()));
 				fc.showOpenDialog(editDialog);
 				File f = fc.getSelectedFile();
 				sourceField.setText(f.getAbsolutePath());

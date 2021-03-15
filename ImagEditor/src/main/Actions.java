@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import install.Install;
 import shapes.Picture;
 import shapes.Rectagle;
 import shapes.Shape;
@@ -59,7 +60,7 @@ public class Actions {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = dirField.getText().equals("")?
-						new JFileChooser():new JFileChooser(new File(dirField.getText()));
+						new JFileChooser(Install.getPath("Gallery")):new JFileChooser(new File(dirField.getText()));
 				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fc.showOpenDialog(saveDialog);
 				File f = fc.getSelectedFile();

@@ -24,6 +24,7 @@ import javax.swing.event.ChangeListener;
 import components.Board;
 import components.LSlider;
 import components.ShapeList;
+import install.Install;
 import log.Logger;
 import shapes.Picture;
 import shapes.Rectagle;
@@ -58,6 +59,25 @@ public class Main {
 				Logger.reportInLog((Exception) e, t);
 			}
 		});
+		if(!Install.isInstalled()) {
+			int answer = JOptionPane.showConfirmDialog(f, "Do you want to install PicturEditor v" + version + "?");
+			switch (answer) {
+				case JOptionPane.YES_OPTION:
+					if(Install.install()) {
+						JOptionPane.showMessageDialog(f, "Install done successfuly!");
+					}else {
+						JOptionPane.showMessageDialog(f, "Error: install failed", "Install Error", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					break;
+				default:
+					f.dispose();
+					System.exit(0);
+					return;
+			}
+		}else {
+			Install.init();
+		}
 		initJMenuBar();
 		board = new Board(Color.WHITE, 1000, 600);
 		board.repaint();

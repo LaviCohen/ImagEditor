@@ -31,8 +31,9 @@ public class Actions {
 		if (command.equals("Save")) {
 			save();
 		}else if (command.equals("Set Paper Size")) {
-			Main.board.setPaperSize(Integer.parseInt(JOptionPane.showInputDialog("Enter Width:")),
-					Integer.parseInt(JOptionPane.showInputDialog("Enter Width:")));
+			Main.board.setPaperSize(
+					Integer.parseInt(JOptionPane.showInputDialog("Enter Width:")),
+					Integer.parseInt(JOptionPane.showInputDialog("Enter Height:")));
 		}else if (command.equals("Rectangle")) {
 			addRectagle();
 		}else if (command.equals("Text")) {

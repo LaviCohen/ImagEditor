@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,6 +29,7 @@ import components.LMenu;
 import components.LSlider;
 import components.ShapeList;
 import install.Install;
+import install.Resources;
 import log.Logger;
 import shapes.Picture;
 import shapes.Rectangle;
@@ -139,7 +141,7 @@ public class Main {
 	public static void initShapeListPanel() {
 		shapeListPanel.add(new JLabel("<html><font size=30>Layers</font></html>"), BorderLayout.NORTH);
 		JPanel actionsPanel = new JPanel(new GridLayout(2, 2));
-		JButton edit = new JButton("edit");
+		JButton edit = new JButton(Resources.editIcon);
 		actionsPanel.add(edit);
 		edit.addActionListener(new ActionListener() {
 			

@@ -44,7 +44,7 @@ public class Actions {
 		}
 	}
 	public static void save() {
-		JDialog saveDialog = new JDialog();
+		JDialog saveDialog = new JDialog(Main.f);
 		saveDialog.setTitle("Save");
 		saveDialog.setLayout(new GridLayout(3, 1));
 		JPanel dirPanel = new JPanel(new BorderLayout());
@@ -81,12 +81,11 @@ public class Actions {
 			public void actionPerformed(ActionEvent e) {
 				File f = new File(
 						dirField.getText() + "\\" + nameField.getText() + typeBox.getSelectedItem());
-				System.out.println(f);
+				System.out.println("Exporting image to " + f);
 				try {
-					System.out.println(Main.board.getWidth() + ", " + Main.board.getHeight());
 					BufferedImage bf = new BufferedImage(Main.board.getWidth(), Main.board.getHeight(), 
-							BufferedImage.TYPE_INT_RGB);
-					System.out.println(Main.board.getDisplay() + "\n" + bf);
+							typeBox.getSelectedItem().equals(".png")?
+									BufferedImage.TYPE_INT_ARGB:BufferedImage.TYPE_INT_RGB);
 					Main.board.paintShapes(bf.getGraphics());
 					JDialog d = new JDialog();
 					d.add(new JLabel(new ImageIcon(bf)));
@@ -124,7 +123,7 @@ public class Actions {
 		p.edit();
 	}
 	public static void editLayers() {
-		JDialog layersDialog = new JDialog();
+		JDialog layersDialog = new JDialog(Main.f);
 		layersDialog.setLayout(new BorderLayout());
 		JComboBox<Shape> comboBox = new JComboBox<Shape>(Main.board.getShapesList().toArray(new Shape[0]));
 		layersDialog.add(comboBox);

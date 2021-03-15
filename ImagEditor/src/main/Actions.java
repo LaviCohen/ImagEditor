@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 
 import install.Install;
 import shapes.Picture;
-import shapes.Rectagle;
+import shapes.Rectangle;
 import shapes.Shape;
 import shapes.Text;
 
@@ -34,7 +34,7 @@ public class Actions {
 		}else if (command.equals("Set Paper Size")) {
 			Main.board.setPaperSize(Integer.parseInt(JOptionPane.showInputDialog("Enter Width:")),
 					Integer.parseInt(JOptionPane.showInputDialog("Enter Width:")));
-		}else if (command.equals("Rectagle")) {
+		}else if (command.equals("Rectangle")) {
 			addRectagle();
 		}else if (command.equals("Text")) {
 			addText();
@@ -107,7 +107,7 @@ public class Actions {
 		saveDialog.setVisible(true);
 	}
 	public static void addRectagle() {
-		Rectagle r = new Rectagle(0, 0, true, null, 100, 100, Color.BLUE);
+		Rectangle r = new Rectangle(0, 0, true, null, 100, 100, Color.BLUE);
 		Main.board.addShape(r);
 		r.edit();
 	}

@@ -30,7 +30,7 @@ import components.ShapeList;
 import install.Install;
 import log.Logger;
 import shapes.Picture;
-import shapes.Rectagle;
+import shapes.Rectangle;
 import shapes.Shape;
 import shapes.Text;
 
@@ -93,37 +93,16 @@ public class Main {
 		initShapeListPanel();
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		f.addWindowListener(new WindowListener() {
-			
 			@Override
-			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void windowOpened(WindowEvent e) {}
 			@Override
-			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void windowIconified(WindowEvent e) {}
 			@Override
-			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void windowDeiconified(WindowEvent e) {}
 			@Override
-			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void windowDeactivated(WindowEvent e) {}
 			@Override
-			public void windowClosing(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void windowClosing(WindowEvent e) {}
 			@Override
 			public void windowClosed(WindowEvent e) {
 				if (Logger.saveLogFiles) {
@@ -137,11 +116,8 @@ public class Main {
 					}
 				}
 			}
-			
 			@Override
-			public void windowActivated(WindowEvent e) {
-				
-			}
+			public void windowActivated(WindowEvent e) {}
 		});
 		Install.init();
 		f.setVisible(true);
@@ -284,7 +260,7 @@ public class Main {
 			}
 		});
 		popup.add(edit);
-		if (s instanceof Text || s instanceof Rectagle) {
+		if (s instanceof Text || s instanceof Rectangle) {
 			return popup;	
 		}
 		popup.add(new JSeparator());

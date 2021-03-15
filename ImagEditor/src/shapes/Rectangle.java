@@ -17,13 +17,13 @@ import javax.swing.JTextField;
 
 import main.Main;
 
-public class Rectagle extends Shape{
+public class Rectangle extends Shape{
 
 	int width;
 	int height;
 	Color color;
 	
-	public Rectagle(int x, int y, boolean visible, String name, int width, int height, Color color) {
+	public Rectangle(int x, int y, boolean visible, String name, int width, int height, Color color) {
 		super(x, y, visible, name);
 		this.width = width;
 		this.height = height;
@@ -40,7 +40,7 @@ public class Rectagle extends Shape{
 	public void edit() {
 		JDialog editDialog = new JDialog(Main.f);
 		editDialog.setLayout(new GridLayout(4, 1));
-		editDialog.setTitle("Edit Rectagle");
+		editDialog.setTitle("Edit Rectangle");
 		JPanel positionPanel = new JPanel(new GridLayout(1, 4));
 		positionPanel.add(new JLabel("X:"));
 		JTextField xField = new JTextField(this.x + "");
@@ -68,13 +68,13 @@ public class Rectagle extends Shape{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				colorLabel.setBackground(JColorChooser.showDialog(editDialog, "Choose Rectagle color", color));
+				colorLabel.setBackground(JColorChooser.showDialog(editDialog, "Choose Rectangle color", color));
 			}
 		});
 		colorPanel.add(setColorButton, BorderLayout.EAST);
 		editDialog.add(colorPanel);
 		JButton done = new JButton("done");
-		final Rectagle cur = this;
+		final Rectangle cur = this;
 		done.addActionListener(new ActionListener() {
 			
 			@Override

@@ -74,7 +74,7 @@ public class Main {
 	}
 	public static void initControlBar() {
 		JPanel controlBar = new JPanel(new BorderLayout());
-		sizeLabel = new JLabel(board.getWidth() + "x" + board.getHeight());
+		sizeLabel = new JLabel(board.paper.getWidth() + "x" + board.paper.getHeight());
 		controlBar.add(sizeLabel, BorderLayout.EAST);
 		zoomSlider.slider.addChangeListener(new ChangeListener() {
 			

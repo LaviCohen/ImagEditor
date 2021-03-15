@@ -2,7 +2,6 @@ package components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -10,30 +9,19 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Hashtable;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 
 import main.Main;
-import shapes.Rectagle;
 import shapes.Shape;
 
-@SuppressWarnings("unused")
 public class Board extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
-	public JLabel l;
+	public JLabel displayLabel;
 	public Graphics g;
 	public Color backgroundColor;
 	public BufferedImage paper;
@@ -44,8 +32,8 @@ public class Board extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.backgroundColor = color;
 		paper = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		l = new JLabel(new ImageIcon(paper));
-		this.add(l, BorderLayout.CENTER);
+		displayLabel = new JLabel(new ImageIcon(paper));
+		this.add(displayLabel, BorderLayout.CENTER);
 		g = paper.getGraphics();
 		inited = true;
 		final Board cur = this;
@@ -123,7 +111,7 @@ public class Board extends JPanel{
 	public void repaint() {
 		if (inited) {
 			paintShapes();
-			l.setIcon(new ImageIcon(
+			displayLabel.setIcon(new ImageIcon(
 					getScaledImage(paper, 
 							(int)(paper.getWidth() * getZoomRate()),
 							(int)(paper.getHeight() * getZoomRate()))));
@@ -147,7 +135,7 @@ public class Board extends JPanel{
 		paper = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		System.gc();
 		g = paper.getGraphics();
-		this.l.setIcon(new ImageIcon(paper));
+		this.displayLabel.setIcon(new ImageIcon(paper));
 		Main.f.revalidate();
 		Main.sizeLabel.setText(width + "x" + height);
 		repaint();
@@ -178,13 +166,5 @@ public class Board extends JPanel{
 			}
 		}
 		return null;
-	}
-	@Override
-	public int getWidth() {
-		return paper.getWidth();
-	}
-	@Override
-	public int getHeight() {
-		return paper.getHeight();
 	}
 }

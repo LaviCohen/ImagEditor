@@ -12,6 +12,7 @@ import install.Install;
 public class Logger {
 	public static boolean printInConsole = true;
 	public static boolean addTimeStamp = true;
+	public static boolean saveLogFiles = true;
 	public static PrintStream console = System.out;
 	public static PrintStream err = System.err;
 	private static PrintStream logger;

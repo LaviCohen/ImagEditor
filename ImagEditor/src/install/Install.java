@@ -15,10 +15,12 @@ import java.util.zip.ZipFile;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
 
+import log.Logger;
 import main.Main;
 
 public class Install {
 	public static String path = "C:\\ImagEditor" + Main.version;
+	public static DataFile default_setting;
 	public static boolean install() {
 		JWindow w = new JWindow();
 		w.setLayout(null);
@@ -34,6 +36,19 @@ public class Install {
 		getFile("My Gallery").mkdir();
 		getFile("Languages").mkdir();
 		getFile("Data").mkdir();
+		getFile("Data\\Settings").mkdir();
+		try {
+			getFile("Data\\Settings\\default_setting.properties").createNewFile();
+			default_setting = new DataFile(
+					getFile("Data\\Settings\\default_setting.properties"));
+			default_setting.putWithoutSave("paper_width", "1000");
+			default_setting.putWithoutSave("paper_height", "600");
+			default_setting.putWithoutSave("zoom", "100");
+			default_setting.putWithoutSave("save_log_files", "true");
+			default_setting.save("Original Default Settings");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		getFile("Data\\Logs").mkdir();
 		try {
 			getFile("Data\\Logs\\live log.txt").createNewFile();
@@ -125,5 +140,11 @@ public class Install {
 		}
 	}
 	public static void init() {
+		default_setting = new DataFile(getFile("Data\\Settings\\default_setting.properties"));
+		Main.board.setPaperSize(
+				Integer.parseInt(default_setting.get("paper_width")),
+				Integer.parseInt(default_setting.get("paper_height")));
+		Main.zoomSlider.slider.setValue(Integer.parseInt(default_setting.get("zoom")));
+		Logger.saveLogFiles = default_setting.get("save_log_files").equals("true");
 	}
 }

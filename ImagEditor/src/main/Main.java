@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import javax.swing.JButton;
@@ -75,13 +79,11 @@ public class Main {
 					System.exit(0);
 					return;
 			}
-		}else {
-			Install.init();
 		}
 		initJMenuBar();
 		board = new Board(Color.WHITE, 1000, 600);
 		board.repaint();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.setLayout(new BorderLayout());
 		boardScrollPane = new JScrollPane(board, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -90,6 +92,58 @@ public class Main {
 		updateShapeList();
 		initShapeListPanel();
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		f.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				if (Logger.saveLogFiles) {
+					File f = Install.getFile(
+							"Data\\Logs\\" + System.currentTimeMillis() + ".txt");
+					try {
+						f.createNewFile();
+						Logger.exportTo(f);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				
+			}
+		});
+		Install.init();
 		f.setVisible(true);
 	}
 	public static void initControlBar() {

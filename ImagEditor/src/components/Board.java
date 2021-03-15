@@ -1,5 +1,6 @@
 package components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -9,39 +10,64 @@ import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import main.Main;
 import shapes.Picture;
 import shapes.Shape;
 
-public class Board extends JLabel{
+public class Board extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	LinkedList<Shape> shapes = new LinkedList<Shape>();
-	BufferedImage display;
+	BufferedImage image;
+	JLabel display;
 	Color backgroundColor;
 	int width;
 	int height;
 	public Board(Color backgroundColor, int width, int height) {
-		super();
+		super(new BorderLayout());
 		this.backgroundColor = backgroundColor;
 		this.width = width;
 		this.height = height;
+		this.display = new JLabel();
+		this.add(display, BorderLayout.CENTER);
 		final Board cur = this;
-		this.display = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		MouseAdapter mouseListener = new MouseAdapter() {
 			int firstX = 0;
 			int firstY = 0;
+			int firstShapeX = 0;
+			int firstShapeY = 0;
+			double movementInX = 0;
+			double movementInY = 0;
 			@Override
 			public void mousePressed(MouseEvent e) {
 				firstX = e.getXOnScreen();
 				firstY = e.getYOnScreen();
-				shapeInFocus = getShapeAt(e.getX(), e.getY());
+				System.out.println(e.getX() + ", " + e.getY() + ":" + getLeftGap() + ", " + getUpGap());
+				shapeInFocus = getShapeAt(
+						(int)((e.getX() - getLeftGap()) / getZoom()),
+						(int)((e.getY() -   getUpGap()) / getZoom()));
+				if (shapeInFocus != null) {
+					firstShapeX = shapeInFocus.getX();
+					firstShapeY = shapeInFocus.getY();
+				}
+			}
+			private double getUpGap() {
+				return ((Main.boardScrollPane.getHeight() - (height * getZoom()))/2);
+			}
+			private double getLeftGap() {
+				return ((Main.boardScrollPane.getWidth()  - (width  * getZoom()))/2);
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				firstX = 0;
 				firstY = 0;
+				firstShapeX = 0;
+				firstShapeY = 0;
+				movementInX = 0;
+				movementInY = 0;
 				shapeInFocus = null;
 			}
 			@Override
@@ -57,8 +83,10 @@ public class Board extends JLabel{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if (shapeInFocus != null) {
-					shapeInFocus.setX(e.getXOnScreen() - firstX + shapeInFocus.getX());
-					shapeInFocus.setY(e.getYOnScreen() - firstY + shapeInFocus.getY());
+					movementInX += (e.getXOnScreen() - firstX) * 100.0 / Main.zoomSlider.getValue();
+					movementInY += (e.getYOnScreen() - firstY) * 100.0 / Main.zoomSlider.getValue();
+					shapeInFocus.setX(firstShapeX + (int)movementInX);
+					shapeInFocus.setY(firstShapeY + (int)movementInY);
 					firstX = e.getXOnScreen();
 					firstY = e.getYOnScreen();
 					Main.board.paintShapes();
@@ -73,12 +101,12 @@ public class Board extends JLabel{
 		this.width = width;
 		this.height = height;
 		Main.sizeLabel.setText(width + "x" + height);
-		this.display = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		paintShapes();
 	}
 	public void paintShapes() {
 		System.out.println("Board repainted");
-		paintShapes(display.getGraphics());
+		paintShapes(image.getGraphics());
 	}
 	public void paintShapes(Graphics g) {
 		g.setColor(backgroundColor);
@@ -88,9 +116,18 @@ public class Board extends JLabel{
 				shapes.get(i).draw(g);
 			}
 		}
-		this.setIcon(new ImageIcon(Picture.getScaledImage(display, (int)(width * Main.zoomSlider.getValue()/100.0), 
-				(int)(height * Main.zoomSlider.getValue()/100.0))));
-		repaint();
+		this.remove(display);
+		this.display = new JLabel(new ImageIcon(
+						Picture.getScaledImage(image, 
+								(int)(width  * getZoom()), 
+								(int)(height * getZoom()))));
+		this.add(display);
+		this.revalidate();
+		this.repaint();
+		if (Main.boardScrollPane != null) {
+			Main.boardScrollPane.revalidate();
+			Main.boardScrollPane.repaint();
+		}
 	}
 	public LinkedList<Shape> getShapesList() {
 		return shapes;
@@ -102,7 +139,7 @@ public class Board extends JLabel{
 	}
 	public BufferedImage getDisplay() {
 		paintShapes();
-		return display;
+		return image;
 	}
 	@Override
 	public int getWidth() {
@@ -114,12 +151,16 @@ public class Board extends JLabel{
 	}
 	public Board(BufferedImage display, Color backgroundColor, int width, int height) {
 		super();
-		this.display = display;
+		this.image = display;
 		this.backgroundColor = backgroundColor;
 		this.width = width;
 		this.height = height;
 	}
+	public static double getZoom() {
+		return Main.zoomSlider.getValue()/100.0;
+	}
 	public Shape getShapeAt(int x, int y) {
+		System.out.println(x + ", " + y);
 		Shape s = null;
 		for (int i = shapes.size() - 1; i > -1; i--) {
 			s = shapes.get(i);

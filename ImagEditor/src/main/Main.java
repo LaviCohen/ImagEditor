@@ -38,6 +38,7 @@ public class Main {
 	public static ShapeList shapeList;
 	public static JLabel sizeLabel;
 	public static LSlider zoomSlider = new LSlider("Zoom:", 10, 200, 100);
+	public static JScrollPane boardScrollPane;
 	public static ActionListener menuListener = new ActionListener() {
 		
 		@Override
@@ -62,8 +63,9 @@ public class Main {
 		board.paintShapes();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLayout(new BorderLayout());
-		f.add(new JScrollPane(board, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+		boardScrollPane = new JScrollPane(board, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		f.add(boardScrollPane, BorderLayout.CENTER);
 		initControlBar();
 		updateShapeList();
 		initShapeListPanel();

@@ -149,7 +149,7 @@ public class Board extends JPanel{
 		g = paper.getGraphics();
 		this.l.setIcon(new ImageIcon(paper));
 		Main.f.revalidate();
-		Main.sizeLabel.setText(width + "X" + height);
+		Main.sizeLabel.setText(width + "x" + height);
 		repaint();
 	}
 	public static Image getScaledImage(Image srcImg, int w, int h){
@@ -178,5 +178,13 @@ public class Board extends JPanel{
 			}
 		}
 		return null;
+	}
+	@Override
+	public int getWidth() {
+		return paper.getWidth();
+	}
+	@Override
+	public int getHeight() {
+		return paper.getHeight();
 	}
 }

@@ -103,7 +103,7 @@ public class Board extends JPanel{
 					shapeInFocus.setY(firstShapeY + (int)movementInY);
 					firstX = e.getXOnScreen();
 					firstY = e.getYOnScreen();
-					Main.board.paintShapes();
+					Main.board.repaint();
 				}
 			}
 		};

@@ -10,8 +10,6 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,6 +20,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import components.Board;
+import components.LMenu;
 import components.LSlider;
 import components.ShapeList;
 import install.Install;
@@ -200,32 +199,14 @@ public class Main {
 		f.repaint();
 	}
 	public static void initJMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
-		JMenu file = new JMenu("File");
-		JMenuItem save = new JMenuItem("Save");
-		save.addActionListener(menuListener);
-		file.add(save);
-		JMenuItem setPaperSize = new JMenuItem("Set Paper Size");
-		setPaperSize.addActionListener(menuListener);
-		file.add(setPaperSize);
-		menuBar.add(file);
-		JMenu add = new JMenu("Add");
-		menuBar.add(add);
-		JMenuItem rect = new JMenuItem("Rectagle");
-		rect.addActionListener(menuListener);
-		add.add(rect);
-		JMenuItem text = new JMenuItem("Text");
-		text.addActionListener(menuListener);
-		add.add(text);
-		JMenuItem picture = new JMenuItem("Picture");
-		picture.addActionListener(menuListener);
-		add.add(picture);
-		JMenu edit = new JMenu("Edit");
-		menuBar.add(edit);
-		JMenuItem editLayers = new JMenuItem("edit layers");
-		editLayers.addActionListener(menuListener);
-		edit.add(editLayers);
-		f.setJMenuBar(menuBar);
+		LMenu lMenu = new LMenu(new String[][] 
+				{
+			{"File", "Save", "Set Paper Size"},
+			{"Add", "Rectangle", "Text", "Picture"},
+			{"Edit", "Edit Layers"}
+				}
+		, menuListener);
+		f.setJMenuBar(lMenu);
 	}
 	public static JPopupMenu getPopupMenuForShape(Shape s) {
 		JPopupMenu popup = new JPopupMenu("Options");

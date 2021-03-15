@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Calendar;
 
+import install.Install;
+
 public class Logger {
 	public static boolean printInConsole = true;
 	public static boolean addTimeStamp = true;
@@ -14,6 +16,7 @@ public class Logger {
 	public static PrintStream err = System.err;
 	private static PrintStream logger;
 	private static PrintStream errorLogger;
+	private static PrintStream liveLogger;
 	private static StringBuffer log = new StringBuffer();
 	private static StringBuffer errorLog = new StringBuffer();
 	public static int errorCount = 0;
@@ -23,6 +26,7 @@ public class Logger {
 			
 			@Override
 			public void write(int b) throws IOException {
+				liveLogger.append((char)b);
 				if (printInConsole) {
 					console.append((char)b);
 				}
@@ -38,14 +42,34 @@ public class Logger {
 			
 			@Override
 			public void write(int b) throws IOException {
+				liveLogger.append((char)b);
 				if (printInConsole) {
 					err.append((char)b);
 				}
 				errorLog.append((char)b);
 			}
 		});
+		if (Install.isInstalled()) {
+			initializeLiveLogger();
+		}else {
+			liveLogger = new PrintStream(new OutputStream() {
+				
+				@Override
+				public void write(int b) throws IOException {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
 		System.setOut(logger);
 		System.setErr(errorLogger);
+	}
+	public static void initializeLiveLogger() {
+		try {
+			liveLogger = new PrintStream(Install.getFile("Data\\Logs\\live log.txt"));
+		} catch (FileNotFoundException e) {
+			
+		}
 	}
 	public static void exportTo(File f) {
 		PrintStream ps = null;

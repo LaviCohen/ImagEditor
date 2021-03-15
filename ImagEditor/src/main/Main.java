@@ -32,7 +32,7 @@ import shapes.Text;
 
 public class Main {
 	public static final double version = 1.0;
-	public static JFrame f = new JFrame("ImageEditor v" + version);
+	public static JFrame f = new JFrame("ImagEditor v" + version);
 	public static Board board;
 	public static JPanel shapeListPanel = new JPanel(new BorderLayout());
 	public static ShapeList shapeList;
@@ -63,6 +63,7 @@ public class Main {
 			switch (answer) {
 				case JOptionPane.YES_OPTION:
 					if(Install.install()) {
+						Logger.initializeLiveLogger();
 						JOptionPane.showMessageDialog(f, "Install done successfuly!");
 					}else {
 						JOptionPane.showMessageDialog(f, "Error: install failed", "Install Error", JOptionPane.ERROR_MESSAGE);

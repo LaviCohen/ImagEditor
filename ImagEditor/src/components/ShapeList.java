@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import install.Resources;
 import layouts.ListLayout;
 import main.Main;
 import shapes.Picture;
@@ -28,25 +29,30 @@ public class ShapeList extends JPanel{
 	public static class ShapePanel extends JPanel{
 		private static final long serialVersionUID = 1L;
 		public Shape shape;
-		public static int displayWidth = 30;
-		public static int displayHeight = 30;
+		public static int displayWidth = 50;
+		public static int displayHeight = 50;
 		public ShapePanel(Shape shape, ShapeList shapeList) {
-			super(new BorderLayout());
+			super(new BorderLayout(5, 0));
 			this.shape = shape;
 			final ShapePanel cur = this;
 			JPopupMenu popup = Main.getPopupMenuForShape(shape);
 			this.setBackground(Color.WHITE);
-			JButton showNhide = new JButton("Hide");
+			JButton showNhide = new JButton(Resources.hideIcon);
+			showNhide.setToolTipText("hide this shape");
+			showNhide.setFocusPainted(false);
+			showNhide.setBackground(Color.WHITE);
 			showNhide.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (shape.isVisible()) {
 						shape.setVisible(false);
-						showNhide.setText("Show");
+						showNhide.setIcon(Resources.showIcon);
+						showNhide.setToolTipText("show this shape");
 					}else {
 						shape.setVisible(true);
-						showNhide.setText("Hide");
+						showNhide.setIcon(Resources.hideIcon);
+						showNhide.setToolTipText("hide this shape");
 					}
 					Main.board.repaint();
 					showNhide.repaint();

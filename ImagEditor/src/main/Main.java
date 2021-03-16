@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -82,6 +81,7 @@ public class Main {
 					return;
 			}
 		}
+		Resources.init();
 		initJMenuBar();
 		board = new Board(Color.WHITE, 1000, 600);
 		board.repaint();
@@ -142,6 +142,9 @@ public class Main {
 		shapeListPanel.add(new JLabel("<html><font size=30>Layers</font></html>"), BorderLayout.NORTH);
 		JPanel actionsPanel = new JPanel(new GridLayout(2, 2));
 		JButton edit = new JButton(Resources.editIcon);
+		edit.setToolTipText("Edit selected shape");
+		edit.setBackground(Color.WHITE);
+		edit.setFocusPainted(false);
 		actionsPanel.add(edit);
 		edit.addActionListener(new ActionListener() {
 			
@@ -152,7 +155,10 @@ public class Main {
 				}
 			}
 		});
-		JButton remove = new JButton("remove");
+		JButton remove = new JButton(Resources.removeIcon);
+		remove.setToolTipText("Remove selected shape");
+		remove.setBackground(Color.WHITE);
+		remove.setFocusPainted(false);
 		actionsPanel.add(remove);
 		remove.addActionListener(new ActionListener() {
 			
@@ -166,7 +172,10 @@ public class Main {
 			}
 		});
 		shapeListPanel.add(actionsPanel, BorderLayout.SOUTH);
-		JButton uplayer = new JButton("up layer");
+		JButton uplayer = new JButton(Resources.up_layerIcon);
+		uplayer.setToolTipText("Move selected shape 1 layer up");
+		uplayer.setBackground(Color.WHITE);
+		uplayer.setFocusPainted(false);
 		actionsPanel.add(uplayer);
 		uplayer.addActionListener(new ActionListener() {
 			
@@ -190,7 +199,10 @@ public class Main {
 			}
 		});
 		shapeListPanel.add(actionsPanel, BorderLayout.SOUTH);
-		JButton downlayer = new JButton("down layer");
+		JButton downlayer = new JButton(Resources.down_layerIcon);
+		downlayer.setToolTipText("Move selected shape 1 layer down");
+		downlayer.setBackground(Color.WHITE);
+		downlayer.setFocusPainted(false);
 		actionsPanel.add(downlayer);
 		downlayer.addActionListener(new ActionListener() {
 			

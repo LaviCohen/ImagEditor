@@ -32,14 +32,23 @@ public class ListLayout implements LayoutManager2{
 	public void layoutContainer(Container parent) {
 		int totalHeight = 0;
 		for (int i = 0; i < components.size(); i++) {
-			components.get(i).setBounds(0, totalHeight, parent.getWidth(), 30);
-			totalHeight += 30 + vgap;
+			Component c = components.get(i);
+			int componentHeight = c.getPreferredSize().height;
+			c.setBounds(0, totalHeight, parent.getWidth(), componentHeight);
+			totalHeight += componentHeight + vgap;
 		}
 	}
 
 	@Override
 	public Dimension preferredLayoutSize(Container parent) {
-		return new Dimension(150, parent.getHeight());
+		int width = 150;
+		for (int i = 0; i < components.size(); i++) {
+			int compWidth = components.get(i).getPreferredSize().width;
+			if (compWidth > width) {
+				width = compWidth;
+			}
+		}
+		return new Dimension(width, parent.getHeight());
 	}
 
 	@Override

@@ -44,9 +44,6 @@ public class Logger {
 			@Override
 			public void write(int b) throws IOException {
 				liveLogger.append((char)b);
-				if (printInConsole) {
-					err.append((char)b);
-				}
 				errorLog.append((char)b);
 			}
 		});

@@ -57,10 +57,10 @@ public class Board extends JPanel{
 				}
 			}
 			private double getUpGap() {
-				return ((cur.getHeight() - (height * getZoomRate()))/2);
+				return ((cur.getHeight() - (cur.paper.getHeight() * getZoomRate()))/2);
 			}
 			private double getLeftGap() {
-				return ((cur.getWidth()  - (width  * getZoomRate()))/2);
+				return ((cur.getWidth()  - (cur.paper.getWidth()  * getZoomRate()))/2);
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {

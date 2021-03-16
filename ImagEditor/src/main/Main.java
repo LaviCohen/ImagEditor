@@ -86,6 +86,7 @@ public class Main {
 		board = new Board(Color.WHITE, 1000, 600);
 		board.repaint();
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		f.setIconImage(Resources.logo.getImage());
 		f.setLayout(new BorderLayout());
 		boardScrollPane = new JScrollPane(board, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

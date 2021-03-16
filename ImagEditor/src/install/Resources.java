@@ -15,6 +15,7 @@ public class Resources {
 	public static ImageIcon down_layerIcon;
 	public static ImageIcon showIcon;
 	public static ImageIcon hideIcon;
+	public static ImageIcon logo;
 	public static int iconsWidth = 50;
 	public static int iconsHeight = 50;
 	public static void init(){
@@ -32,6 +33,8 @@ public class Resources {
 					Resources.class.getResourceAsStream("/images/show.png")), 70, 40);
 			hideIcon = getIcon(ImageIO.read(
 					Resources.class.getResourceAsStream("/images/hide.png")), 70, 40);
+			logo = new ImageIcon(ImageIO.read(
+					Resources.class.getResourceAsStream("/images/logo.png")));
 		} catch (IOException e) {
 			System.out.println("Error in loading images");
 			e.printStackTrace();

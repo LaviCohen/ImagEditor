@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Properties;
 
 public class DataFile {
@@ -15,9 +14,7 @@ public class DataFile {
 		this.file = f;
 		Properties p = new Properties();
 		try {
-			FileInputStream fis = new FileInputStream(f);
-			InputStreamReader reader = new InputStreamReader(fis, "UTF-8");
-			p.load(reader);
+			p.load(new FileInputStream(f));
 			this.properties = p;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

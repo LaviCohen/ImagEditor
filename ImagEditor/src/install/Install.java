@@ -155,4 +155,7 @@ public class Install {
 		default_setting = new DataFile(getFile("Data\\Settings\\default_setting.properties"));
 		Translator.setLanguage(default_setting.get("language"));
 	}
+	public static void setDefaultSetting(String settingName, Object value) {
+		Install.default_setting.put(settingName, value);
+	}
 }

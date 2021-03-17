@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import install.Install;
+import languages.Translator;
 import shapes.Picture;
 import shapes.Rectangle;
 import shapes.Text;
@@ -34,6 +35,8 @@ public class Actions {
 			Main.board.setPaperSize(
 					Integer.parseInt(JOptionPane.showInputDialog("Enter Width:")),
 					Integer.parseInt(JOptionPane.showInputDialog("Enter Height:")));
+		}else if (command.equals("Set Language")) {
+			Translator.showChangeLanguageDialog();
 		}else if (command.equals("Rectangle")) {
 			addRectagle();
 		}else if (command.equals("Text")) {

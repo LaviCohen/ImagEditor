@@ -60,7 +60,6 @@ public class Main {
 			
 			@Override
 			public void uncaughtException(Thread t, Throwable e) {
-				System.out.println("hi");
 				Logger.errorCount++;
 				Logger.reportInLog((Exception) e, t);
 				if (Logger.printInConsole) {
@@ -258,7 +257,7 @@ public class Main {
 	public static void initJMenuBar() {
 		LMenu lMenu = new LMenu(new String[][] 
 				{
-			{"File", "Save#s", "Set Paper Size"},
+			{"File", "Save#s", "Set Paper Size", "Set Language"},
 			{"Actions", "Edit#e", "Set Paper Size", "Refresh#r"},
 			{"Add", "Rectangle@r", "Text@t", "Picture@p"},
 				}

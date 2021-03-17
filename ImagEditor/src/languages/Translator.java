@@ -32,12 +32,17 @@ public class Translator {
 		String[] displayLanguages = new String[allLanguages.length + 1];
 		displayLanguages[0] = DEFAULT_LANGUAGE;
 		for (int i = 1; i < displayLanguages.length; i++) {
-			displayLanguages[i] = allLanguages[i].substring(0, allLanguages[i].indexOf('.'));
+			displayLanguages[i] = 
+					allLanguages[i - 1].substring(0, allLanguages[i - 1].indexOf('.'));
 		}
 		String ans = JOptionPane.showInputDialog(Main.f, "Choose Language:", "Languages",
 				JOptionPane.QUESTION_MESSAGE, null, displayLanguages, 
 				getLanguageName()).toString();
 		setLanguage(ans);
+		Install.setDefaultSetting("Language", ans);
+		JOptionPane.showMessageDialog(Main.f, 
+				"<html>To change the language totally,<br/>"
+				+ "close the program and reopen it.</html>");
 	}
 	public static Object getLanguageName() {
 		if (language == null) {

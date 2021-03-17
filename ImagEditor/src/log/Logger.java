@@ -45,6 +45,9 @@ public class Logger {
 			public void write(int b) throws IOException {
 				liveLogger.append((char)b);
 				errorLog.append((char)b);
+				if (printInConsole) {
+					err.print((char)b);
+				}
 			}
 		});
 		if (Install.isInstalled()) {

@@ -60,8 +60,12 @@ public class Main {
 			
 			@Override
 			public void uncaughtException(Thread t, Throwable e) {
+				System.out.println("hi");
 				Logger.errorCount++;
 				Logger.reportInLog((Exception) e, t);
+				if (Logger.printInConsole) {
+					e.printStackTrace();
+				}
 			}
 		});
 		if(!Install.isInstalled()) {

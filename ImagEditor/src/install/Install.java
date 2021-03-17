@@ -68,6 +68,9 @@ public class Install {
 		return !(new File(path).exists());
 	}
 	public static String getPath(String resPath) {
+		if (resPath.startsWith(path)) {
+			return resPath;
+		}
 		return path + "\\" + resPath;
 	}
 	public static File getFile(String resPath) {

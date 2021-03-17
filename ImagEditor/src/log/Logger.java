@@ -90,9 +90,6 @@ public class Logger {
 	}
 	public static void reportInLog(Exception e, Thread t) {
 		errorLogger.println(exceptionToString(e, t, errorCount));
-		if (printInConsole) {
-			e.printStackTrace();
-		}
 	}
 	@SuppressWarnings("static-access")
 	public static String exceptionToString(Exception e, Thread t, int ID) {

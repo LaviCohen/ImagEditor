@@ -89,7 +89,7 @@ public class Logger {
 		return errorLog.toString();
 	}
 	public static void reportInLog(Exception e, Thread t) {
-		System.err.println(exceptionToString(e, t, errorCount));
+		errorLogger.println(exceptionToString(e, t, errorCount));
 		if (printInConsole) {
 			e.printStackTrace();
 		}

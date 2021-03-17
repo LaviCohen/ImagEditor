@@ -29,6 +29,7 @@ import components.LSlider;
 import components.ShapeList;
 import install.Install;
 import install.Resources;
+import languages.Translator;
 import log.Logger;
 import shapes.Picture;
 import shapes.Rectangle;
@@ -36,13 +37,13 @@ import shapes.Shape;
 import shapes.Text;
 
 public class Main {
-	public static final double version = 1.0;
-	public static JFrame f = new JFrame("ImagEditor v" + version);
+	public static final double version = 2.0;
+	public static JFrame f;
 	public static Board board;
-	public static JPanel shapeListPanel = new JPanel(new BorderLayout());
+	public static JPanel shapeListPanel;
 	public static ShapeList shapeList;
 	public static JLabel sizeLabel;
-	public static LSlider zoomSlider = new LSlider("Zoom:", 10, 200, 100);
+	public static LSlider zoomSlider;
 	public static JScrollPane boardScrollPane;
 	public static ActionListener menuListener = new ActionListener() {
 		
@@ -76,11 +77,14 @@ public class Main {
 					}
 					break;
 				default:
-					f.dispose();
 					System.exit(0);
 					return;
 			}
 		}
+		Install.initLanguage();
+		f = new JFrame(Translator.get("ImagEditor v") + version);
+		zoomSlider = new LSlider(Translator.get("Zoom") + ":", 10, 200, 100);
+		shapeListPanel = new JPanel(new BorderLayout());
 		Resources.init();
 		initJMenuBar();
 		board = new Board(Color.WHITE, 1000, 600);
@@ -110,7 +114,7 @@ public class Main {
 			public void windowClosed(WindowEvent e) {
 				if (Logger.saveLogFiles) {
 					File f = Install.getFile(
-							"Data\\Logs\\" + System.currentTimeMillis() + ".txt");
+							"Data\\Logs\\Log saved at " + System.currentTimeMillis() + ".txt");
 					try {
 						f.createNewFile();
 						Logger.exportTo(f);
@@ -140,10 +144,11 @@ public class Main {
 		f.add(controlBar, BorderLayout.SOUTH);
 	}
 	public static void initShapeListPanel() {
-		shapeListPanel.add(new JLabel("<html><font size=30>Layers</font></html>"), BorderLayout.NORTH);
+		shapeListPanel.add(new JLabel("<html><font size=30>" + 
+				Translator.get("Layers") + "</font></html>"), BorderLayout.NORTH);
 		JPanel actionsPanel = new JPanel(new GridLayout(2, 2));
 		JButton edit = new JButton(Resources.editIcon);
-		edit.setToolTipText("Edit selected shape");
+		edit.setToolTipText(Translator.get("Edit selected shape"));
 		edit.setBackground(Color.WHITE);
 		edit.setFocusPainted(false);
 		actionsPanel.add(edit);
@@ -157,7 +162,7 @@ public class Main {
 			}
 		});
 		JButton remove = new JButton(Resources.removeIcon);
-		remove.setToolTipText("Remove selected shape");
+		remove.setToolTipText(Translator.get("Remove selected shape"));
 		remove.setBackground(Color.WHITE);
 		remove.setFocusPainted(false);
 		actionsPanel.add(remove);
@@ -174,7 +179,7 @@ public class Main {
 		});
 		shapeListPanel.add(actionsPanel, BorderLayout.SOUTH);
 		JButton uplayer = new JButton(Resources.up_layerIcon);
-		uplayer.setToolTipText("Move selected shape 1 layer up");
+		uplayer.setToolTipText(Translator.get("Move selected shape 1 layer up"));
 		uplayer.setBackground(Color.WHITE);
 		uplayer.setFocusPainted(false);
 		actionsPanel.add(uplayer);
@@ -185,8 +190,9 @@ public class Main {
 				if (shapeList.getSelectedShape() != null) {
 					Shape s = shapeList.getSelectedShape();
 					if (board.getShapesList().getLast() == s) {
-						JOptionPane.showMessageDialog(Main.f, "This is the top layer!",
-								"Warning", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(Main.f, 
+								Translator.get("This is the top layer!"),
+								Translator.get("Warning"), JOptionPane.WARNING_MESSAGE);
 						return;
 					}
 					int sIndex = board.getShapesList().indexOf(s);
@@ -201,7 +207,7 @@ public class Main {
 		});
 		shapeListPanel.add(actionsPanel, BorderLayout.SOUTH);
 		JButton downlayer = new JButton(Resources.down_layerIcon);
-		downlayer.setToolTipText("Move selected shape 1 layer down");
+		downlayer.setToolTipText(Translator.get("Move selected shape 1 layer down"));
 		downlayer.setBackground(Color.WHITE);
 		downlayer.setFocusPainted(false);
 		actionsPanel.add(downlayer);
@@ -212,8 +218,9 @@ public class Main {
 				if (shapeList.getSelectedShape() != null) {
 					Shape s = shapeList.getSelectedShape();
 					if (board.getShapesList().getFirst() == s) {
-						JOptionPane.showMessageDialog(Main.f, "This is the down layer!",
-								"Warning", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(Main.f, 
+								Translator.get("This is the down layer!"),
+								Translator.get("Warning"), JOptionPane.WARNING_MESSAGE);
 						return;
 					}
 					int sIndex = board.getShapesList().indexOf(s);
@@ -256,17 +263,18 @@ public class Main {
 	}
 	public static JPopupMenu getPopupMenuForShape(Shape s) {
 		JPopupMenu popup = new JPopupMenu("Options");
-		JMenuItem setName = new JMenuItem("Set Name");
+		JMenuItem setName = new JMenuItem(Translator.get("Set Name"));
 		setName.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				s.setName(JOptionPane.showInputDialog("Enter the new name for \"" + s.getName() + "\""));
+				s.setName(JOptionPane.showInputDialog(Translator.get("Enter the new name for")
+						+ " \"" + s.getName() + "\""));
 				Main.updateShapeList();
 			}
 		});
 		popup.add(setName);
-		JMenuItem edit = new JMenuItem("Edit");
+		JMenuItem edit = new JMenuItem(Translator.get("Edit"));
 		edit.addActionListener(new ActionListener() {
 			
 			@Override

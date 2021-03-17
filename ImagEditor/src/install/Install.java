@@ -15,6 +15,7 @@ import java.util.zip.ZipFile;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
 
+import languages.Translator;
 import log.Logger;
 import main.Main;
 
@@ -45,6 +46,7 @@ public class Install {
 			default_setting.putWithoutSave("paper_height", "600");
 			default_setting.putWithoutSave("zoom", "100");
 			default_setting.putWithoutSave("save_log_files", "true");
+			default_setting.putWithoutSave("language", Translator.DEFAULT_LANGUAGE);
 			default_setting.save("Original Default Settings");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -140,11 +142,14 @@ public class Install {
 		}
 	}
 	public static void init() {
-		default_setting = new DataFile(getFile("Data\\Settings\\default_setting.properties"));
 		Main.board.setPaperSize(
 				Integer.parseInt(default_setting.get("paper_width")),
 				Integer.parseInt(default_setting.get("paper_height")));
 		Main.zoomSlider.slider.setValue(Integer.parseInt(default_setting.get("zoom")));
 		Logger.saveLogFiles = default_setting.get("save_log_files").equals("true");
+	}
+	public static void initLanguage() {
+		default_setting = new DataFile(getFile("Data\\Settings\\default_setting.properties"));
+		Translator.setLanguage(default_setting.get("language"));
 	}
 }

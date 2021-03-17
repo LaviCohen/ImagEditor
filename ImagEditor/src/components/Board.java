@@ -75,9 +75,11 @@ public class Board extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON3) {
-					Shape s = getShapeAt(e.getX(), e.getY());
-					if (s != null) {
-						Main.getPopupMenuForShape(s).show(cur, e.getX(), e.getY());
+					shapeInFocus = getShapeAt(
+							(int)((e.getX() - getLeftGap()) / getZoomRate()),
+							(int)((e.getY() - getUpGap()) / getZoomRate()));
+					if (shapeInFocus != null) {
+						Main.getPopupMenuForShape(shapeInFocus).show(cur, e.getX(), e.getY());
 					}
 				}
 			}
@@ -157,7 +159,6 @@ public class Board extends JPanel{
 		return Main.zoomSlider.getValue() / 100.0;
 	}
 	public Shape getShapeAt(int x, int y) {
-		System.out.println(x + ", " + y);
 		Shape s = null;
 		for (int i = shapes.size() - 1; i > -1; i--) {
 			s = shapes.get(i);

@@ -158,4 +158,10 @@ public class Install {
 	public static void setDefaultSetting(String settingName, Object value) {
 		Install.default_setting.put(settingName, value);
 	}
+	public static void initPremiumSetting() {
+		
+	}
+	public static void initNormalSetting() {
+		
+	}
 }

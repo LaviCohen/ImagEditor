@@ -35,6 +35,8 @@ import shapes.Picture;
 import shapes.Rectangle;
 import shapes.Shape;
 import shapes.Text;
+import webServices.Account;
+import webServices.Website;
 
 public class Main {
 	public static final double version = 2.0;
@@ -45,6 +47,9 @@ public class Main {
 	public static JLabel sizeLabel;
 	public static LSlider zoomSlider;
 	public static JScrollPane boardScrollPane;
+	public static Website website = new Website("localhost/imagEditor/");
+	public static Account LOCAL_ACCOUNT = new Account("local account", "", "none", false);
+	public static Account myAccount = LOCAL_ACCOUNT;
 	public static ActionListener menuListener = new ActionListener() {
 		
 		@Override

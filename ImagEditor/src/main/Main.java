@@ -38,19 +38,24 @@ import shapes.Text;
 import webServices.Account;
 import webServices.Website;
 
+/**
+ * This class contains the main method and set up the whole program.
+ * In addition, this class keeps all the static important variables, for example:
+ * frame, board, website, account etc.
+ * */
 public class Main {
 	public static final double version = 2.0;
 	public static JFrame f;
 	public static Board board;
-	public static JPanel shapeListPanel;
-	public static ShapeList shapeList;
-	public static JLabel sizeLabel;
-	public static LSlider zoomSlider;
-	public static JScrollPane boardScrollPane;
 	public static Website website = new Website("localhost/imagEditor/");
 	public static Account LOCAL_ACCOUNT = new Account("local account", "", "none", false);
 	public static Account myAccount = LOCAL_ACCOUNT;
-	public static ActionListener menuListener = new ActionListener() {
+	private static JPanel shapeListPanel;
+	private static ShapeList shapeList;
+	private static JLabel sizeLabel;
+	private static LSlider zoomSlider;
+	private static JScrollPane boardScrollPane;
+	private static ActionListener menuListener = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -73,7 +78,7 @@ public class Main {
 			}
 		});
 		if(!Install.isInstalled()) {
-			int answer = JOptionPane.showConfirmDialog(f, "Do you want to install PicturEditor v" + version + "?");
+			int answer = JOptionPane.showConfirmDialog(f, "Do you want to install ImageEditor v" + version + "?");
 			switch (answer) {
 				case JOptionPane.YES_OPTION:
 					if(Install.install()) {
@@ -140,7 +145,7 @@ public class Main {
 	public static void initControlBar() {
 		JPanel controlBar = new JPanel(new BorderLayout());
 		sizeLabel = new JLabel(board.paper.getWidth() + "x" + board.paper.getHeight());
-		controlBar.add(sizeLabel, BorderLayout.EAST);
+		controlBar.add(getSizeLabel(), BorderLayout.EAST);
 		zoomSlider.slider.addChangeListener(new ChangeListener() {
 			
 			@Override
@@ -164,8 +169,8 @@ public class Main {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (shapeList.getSelectedShape() != null) {
-					shapeList.getSelectedShape().edit();
+				if (getShapeList().getSelectedShape() != null) {
+					getShapeList().getSelectedShape().edit();
 				}
 			}
 		});
@@ -178,8 +183,8 @@ public class Main {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (shapeList.getSelectedShape() != null) {
-					board.getShapesList().remove(shapeList.getSelectedShape());
+				if (getShapeList().getSelectedShape() != null) {
+					board.getShapesList().remove(getShapeList().getSelectedShape());
 					board.repaint();
 					updateShapeList();
 				}
@@ -195,8 +200,8 @@ public class Main {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (shapeList.getSelectedShape() != null) {
-					Shape s = shapeList.getSelectedShape();
+				if (getShapeList().getSelectedShape() != null) {
+					Shape s = getShapeList().getSelectedShape();
 					if (board.getShapesList().getLast() == s) {
 						JOptionPane.showMessageDialog(Main.f, 
 								Translator.get("This is the top layer!"),
@@ -223,8 +228,8 @@ public class Main {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (shapeList.getSelectedShape() != null) {
-					Shape s = shapeList.getSelectedShape();
+				if (getShapeList().getSelectedShape() != null) {
+					Shape s = getShapeList().getSelectedShape();
 					if (board.getShapesList().getFirst() == s) {
 						JOptionPane.showMessageDialog(Main.f, 
 								Translator.get("This is the down layer!"),
@@ -247,14 +252,14 @@ public class Main {
 	public static void updateShapeList() {
 		System.out.println("Update shapeList");
 		Shape s = null;
-		if (shapeList != null) {
-			s = shapeList.getSelectedShape();
-			shapeListPanel.remove(shapeList);
+		if (getShapeList() != null) {
+			s = getShapeList().getSelectedShape();
+			shapeListPanel.remove(getShapeList());
 		}
 		shapeList = new ShapeList(board.getShapesList().toArray(new Shape[0]));
-		shapeListPanel.add(shapeList, BorderLayout.CENTER);
+		shapeListPanel.add(getShapeList(), BorderLayout.CENTER);
 		if (s != null) {
-			shapeList.setSelection(s);
+			getShapeList().setSelection(s);
 		}
 		f.revalidate();
 		f.repaint();
@@ -315,5 +320,14 @@ public class Main {
 		});
 		popup.add(copy);
 		return popup;
+	}
+	public static ShapeList getShapeList() {
+		return shapeList;
+	}
+	public static LSlider getZoomSlider() {
+		return zoomSlider;
+	}
+	public static JLabel getSizeLabel() {
+		return sizeLabel;
 	}
 }

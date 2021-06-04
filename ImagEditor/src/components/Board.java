@@ -87,8 +87,8 @@ public class Board extends JPanel{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if (shapeInFocus != null) {
-					movementInX += (e.getXOnScreen() - firstX) * 100.0 / Main.zoomSlider.getValue();
-					movementInY += (e.getYOnScreen() - firstY) * 100.0 / Main.zoomSlider.getValue();
+					movementInX += (e.getXOnScreen() - firstX) * 100.0 / Main.getZoomSlider().getValue();
+					movementInY += (e.getYOnScreen() - firstY) * 100.0 / Main.getZoomSlider().getValue();
 					shapeInFocus.setX(firstShapeX + (int)movementInX);
 					shapeInFocus.setY(firstShapeY + (int)movementInY);
 					firstX = e.getXOnScreen();
@@ -139,7 +139,7 @@ public class Board extends JPanel{
 		g = paper.getGraphics();
 		this.displayLabel.setIcon(new ImageIcon(paper));
 		Main.f.revalidate();
-		Main.sizeLabel.setText(width + "x" + height);
+		Main.getSizeLabel().setText(width + "x" + height);
 		repaint();
 	}
 	public static Image getScaledImage(Image srcImg, int w, int h){
@@ -156,7 +156,7 @@ public class Board extends JPanel{
 		return shapes;
 	}
 	public double getZoomRate() {
-		return Main.zoomSlider.getValue() / 100.0;
+		return Main.getZoomSlider().getValue() / 100.0;
 	}
 	public Shape getShapeAt(int x, int y) {
 		Shape s = null;

@@ -90,7 +90,7 @@ public class Rectangle extends Shape{
 					cur.width = width;
 					cur.height = height;
 					cur.color = color;
-					Main.shapeList.updateImage(cur);
+					Main.getShapeList().updateImage(cur);
 					editDialog.dispose();
 					Main.board.repaint();
 				} catch (Exception e2) {

@@ -130,17 +130,17 @@ public class Actions {
 		p.edit();
 	}
 	public static void edit() {
-		if (Main.shapeList.getSelectedShape() == null) {
+		if (Main.getShapeList().getSelectedShape() == null) {
 			return;
 		}
-		Main.shapeList.getSelectedShape().edit();
+		Main.getShapeList().getSelectedShape().edit();
 	}
 	public static void remove() {
-		if (Main.shapeList.getSelectedShape() == null) {
+		if (Main.getShapeList().getSelectedShape() == null) {
 			return;
 		}
 		if (JOptionPane.showConfirmDialog(Main.f, "Are you sure?") == JOptionPane.YES_OPTION) {
-			Main.board.getShapesList().remove(Main.shapeList.getSelectedShape());
+			Main.board.getShapesList().remove(Main.getShapeList().getSelectedShape());
 			Main.board.repaint();
 			Main.updateShapeList();
 		}

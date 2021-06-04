@@ -125,7 +125,7 @@ public class Picture extends Shape{
 					cur.y = y;
 					cur.width = width;
 					cur.height = height;
-					Main.shapeList.updateImage(cur);
+					Main.getShapeList().updateImage(cur);
 					editDialog.dispose();
 					Main.board.repaint();
 				} catch (Exception e2) {

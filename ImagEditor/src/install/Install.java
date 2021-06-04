@@ -148,7 +148,7 @@ public class Install {
 		Main.board.setPaperSize(
 				Integer.parseInt(default_setting.get("paper_width")),
 				Integer.parseInt(default_setting.get("paper_height")));
-		Main.zoomSlider.slider.setValue(Integer.parseInt(default_setting.get("zoom")));
+		Main.getZoomSlider().slider.setValue(Integer.parseInt(default_setting.get("zoom")));
 		Logger.saveLogFiles = default_setting.get("save_log_files").equals("true");
 	}
 	public static void initLanguage() {

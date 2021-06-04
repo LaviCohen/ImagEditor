@@ -47,6 +47,10 @@ public class Main {
 	public static final double version = 2.0;
 	public static JFrame f;
 	public static Board board;
+	/**
+	 * Represents the website of the product for using its services (as accounts, for example).
+	 * @see webServices.Website The Website class
+	 * */
 	public static Website website = new Website("localhost/imagEditor/");
 	public static Account LOCAL_ACCOUNT = new Account("local account", "", "none", false);
 	public static Account myAccount = LOCAL_ACCOUNT;

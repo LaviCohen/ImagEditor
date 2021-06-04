@@ -1,21 +1,13 @@
 package webServices;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.Socket;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
@@ -25,7 +17,9 @@ import javax.swing.JOptionPane;
 import log.Logger;
 import main.Main;
 
-@SuppressWarnings("unused")
+/**
+ * Represents the website of the product to use its web services
+ * */
 public class Website {
 	public String webAddress;
 	public Website(String webAdress) {
@@ -46,6 +40,7 @@ public class Website {
 		if (!checkInternetConnection() || !checkWebsite()) {
 			return;
 		}
+		@SuppressWarnings("unused")
 		String urlParams = "name=" + name.replaceAll(" ", "+") + "&report=" + report.replaceAll(" ", "+");
 		System.out.println("reported");
 	}
@@ -53,7 +48,8 @@ public class Website {
 		if (!checkInternetConnection() || !checkWebsite()) {
 			return;
 		}
-        String urlParams = "exception=" + e.toString().replaceAll(" ", "+") + 
+        @SuppressWarnings("unused")
+		String urlParams = "exception=" + e.toString().replaceAll(" ", "+") + 
         		"&description=" + Logger.exceptionToString(e, t, Logger.errorCount).replace(" ", "+") + 
 		"&place=" + getErrorPlace(e).replaceAll(" ", "+");
 		System.out.println("reported");

@@ -44,21 +44,55 @@ import webServices.Website;
  * frame, board, website, account etc.
  * */
 public class Main {
+	/**
+	 * Holds the number of the version with minor version (after the decimal point)
+	 * */
 	public static final double version = 2.0;
+	/**
+	 * The frame of the app.
+	 * */
 	public static JFrame f;
+	/**
+	 * Represent the graphic board, which use as preview to the image which edited.
+	 * */
 	public static Board board;
 	/**
 	 * Represents the website of the product for using its services (as accounts, for example).
-	 * @see webServices.Website The Website class
+	 * @see webServices.Website
 	 * */
 	public static Website website = new Website("localhost/imagEditor/");
-	public static Account LOCAL_ACCOUNT = new Account("local account", "", "none", false);
+	/**
+	 * The default account, which uses in the case of none account logged-in.
+	 * */
+	public static final Account LOCAL_ACCOUNT = new Account("local account", "", "none", false);
+	/**
+	 * Current logged-in account.
+	 * As default, LOCAL_ACCOUNT.
+	 * */
 	public static Account myAccount = LOCAL_ACCOUNT;
+	/**
+	 * The side bar which holds the shapeList and some action buttons.
+	 * */
 	private static JPanel shapeListPanel;
+	/**
+	 * GUI list of all the shapes are currently exist. 
+	 * */
 	private static ShapeList shapeList;
+	/**
+	 * The label which holds the size of the paper (width x height).
+	 * */
 	private static JLabel sizeLabel;
+	/**
+	 * The slider which uses to set the zoom of the paper.
+	 * */
 	private static LSlider zoomSlider;
+	/**
+	 * The scrollable wrapper of the paper.
+	 * */
 	private static JScrollPane boardScrollPane;
+	/**
+	 * ActionListener for all of the menu actions.
+	 * */
 	private static ActionListener menuListener = new ActionListener() {
 		
 		@Override

@@ -308,6 +308,7 @@ public class Main {
 			{"File", "Save#s", "Set Paper Size", "Set Language"},
 			{"Actions", "Edit#e", "Set Paper Size", "Refresh#r"},
 			{"Add", "Rectangle@r", "Text@t", "Picture@p"},
+			{"Account", "profile"}
 				}
 		, menuListener);
 		f.setJMenuBar(lMenu);

@@ -3,9 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,8 +14,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import install.Install;
+import install.Resources;
 import main.Main;
-import shapes.Picture;
 
 public class Account {
 	
@@ -111,41 +109,41 @@ public class Account {
 		d.pack();
 		d.setVisible(true);
 	}
-	public static void showAccount() {
-		Account current = Main.myAccount;
+	public void showAccount() {
 		JDialog d = new JDialog();
 		d.setLayout(new BorderLayout());
-		try {
-			d.add(new JLabel(new ImageIcon(
-					Picture.getScaledImage(ImageIO.read(Main.class.getResourceAsStream(current.gender + "Shadow.png")), 150, 150)))
-					, BorderLayout.NORTH);
-		} catch (IOException e) {
-			e.printStackTrace();
+		ImageIcon icon = null;
+		if (gender == NONE_GENDER) {
+			icon = Resources.noneShadow;
+		}else if (gender == MALE) {
+			icon = Resources.maleShadow;
+		}else if (gender == FEMALE) {
+			icon = Resources.femaleShadow;
 		}
-		
+		d.add(new JLabel(icon), BorderLayout.NORTH);
 		JPanel personalDataPanel = new JPanel(new GridLayout(3, 1));
 		
-		if (current.isPremium) {
+		if (this.isPremium) {
 			personalDataPanel.add(new JLabel("<html><i>Premium Account</i></html>"));
 		}
-		personalDataPanel.add(new JLabel("UserName: " + current.userName));
-		personalDataPanel.add(new JLabel("Gender: " + current.gender));
+		personalDataPanel.add(new JLabel("UserName: " + this.userName));
+		personalDataPanel.add(new JLabel("Gender: " + this.gender));
 		
 		
 		d.add(personalDataPanel);
 		
-		JButton login = new JButton((current == Main.LOCAL_ACCOUNT?"login":"logout"));
+		JButton login = new JButton((this == Main.LOCAL_ACCOUNT?"login":"logout"));
 		login.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (current == Main.LOCAL_ACCOUNT) {
+				if (Main.myAccount == Main.LOCAL_ACCOUNT) {
 					d.dispose();
 					Account.GUILogin();
 				}else {	
 					d.dispose();
 					logout();
-					Account.showAccount();
+					Main.myAccount.showAccount();
 				}
 			}
 		});

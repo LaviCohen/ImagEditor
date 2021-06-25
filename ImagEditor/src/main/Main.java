@@ -60,7 +60,7 @@ public class Main {
 	 * Represents the website of the product for using its services (as accounts, for example).
 	 * @see webServices.Website
 	 * */
-	public static Website website = new Website("localhost/imagEditor/");
+	public static Website website = new Website("http://localhost/imagEditor/");
 	/**
 	 * The default account, which uses in the case of none account logged-in.
 	 * */
@@ -121,7 +121,7 @@ public class Main {
 				case JOptionPane.YES_OPTION:
 					if(Install.install()) {
 						Logger.initializeLiveLogger();
-						JOptionPane.showMessageDialog(f, "Install done successfuly!");
+						JOptionPane.showMessageDialog(f, "Install done successfully!");
 					}else {
 						JOptionPane.showMessageDialog(f, "Error: install failed", "Install Error", JOptionPane.ERROR_MESSAGE);
 						return;
@@ -163,16 +163,20 @@ public class Main {
 			public void windowClosing(WindowEvent e) {}
 			@Override
 			public void windowClosed(WindowEvent e) {
+				System.out.println("Post-closing work started");
 				if (Logger.saveLogFiles) {
+					System.out.println("Saving log file");
 					File f = Install.getFile(
 							"Data\\Logs\\Log saved at " + System.currentTimeMillis() + ".txt");
 					try {
 						f.createNewFile();
 						Logger.exportTo(f);
+						System.out.println("Log file saved successfully");
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
+				System.exit(-1);
 			}
 			@Override
 			public void windowActivated(WindowEvent e) {}

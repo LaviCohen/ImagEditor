@@ -38,7 +38,7 @@ public class Account {
 		}
 	}
 	public static void login(String userCode) throws AccountUndefindException {
-		if (userCode == null || userCode.equals("") || userCode.equals("&&&&&&")) {
+		if (userCode.equals("Account Undefined") || userCode == null || userCode.equals("") || userCode.equals("&&&&&&")) {
 			throw new AccountUndefindException("Account undefind, incorrect userName or password");
 		}else {
 			Main.myAccount = decode(userCode);
@@ -99,6 +99,7 @@ public class Account {
 					return;
 				}
 				JOptionPane.showMessageDialog(Main.f, "Hello " + Main.myAccount.userName + ", let\'s create some magic!");
+				Main.myAccount.showAccount();
 				d.dispose();
 			}
 		});
@@ -113,11 +114,11 @@ public class Account {
 		JDialog d = new JDialog();
 		d.setLayout(new BorderLayout());
 		ImageIcon icon = null;
-		if (gender == NONE_GENDER) {
+		if (gender.equals(NONE_GENDER)) {
 			icon = Resources.noneShadow;
-		}else if (gender == MALE) {
+		}else if (gender.equals(MALE)) {
 			icon = Resources.maleShadow;
-		}else if (gender == FEMALE) {
+		}else if (gender.equals(FEMALE)) {
 			icon = Resources.femaleShadow;
 		}
 		d.add(new JLabel(icon), BorderLayout.NORTH);

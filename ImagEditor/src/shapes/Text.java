@@ -17,12 +17,12 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.JTextField;
 
 import components.LSearchableComboBox;
 import components.LSearchableComboBox.Styler;
 import components.LSearchableComboBox.StylingManager;
+import components.LSlider;
 import main.Main;
 
 public class Text extends Shape{
@@ -71,7 +71,6 @@ public class Text extends Shape{
 		JPanel fontPanel = new JPanel(new BorderLayout());
 		fontPanel.add(new JLabel("font:"), BorderLayout.WEST);
 		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-//		JComboBox<String> fontsBox = new JComboBox<String>(fonts);
 		LSearchableComboBox<String> fontsBox = new LSearchableComboBox<String>(fonts, 0, 
 				new StylingManager() {
 			
@@ -86,8 +85,7 @@ public class Text extends Shape{
 		
 		
 		JPanel fontProps = new JPanel(new BorderLayout());
-		fontProps.add(new JLabel("size:"), BorderLayout.WEST);
-		JSlider slider = new JSlider(0, 100, this.font.getSize());
+		LSlider slider = new LSlider("Size:", 0, 100, this.font.getSize());
 		fontProps.add(slider);
 		JCheckBox isBold = new JCheckBox("Bold", this.font.isBold());
 		fontProps.add(isBold, BorderLayout.EAST);

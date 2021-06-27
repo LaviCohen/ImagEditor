@@ -40,12 +40,16 @@ public class LSearchableComboBox<T> extends JPanel {
 	private Styler[] list;
 	private int index;
 	private JTextField field = new JTextField();
-	private JButton openMenu = new JButton("v");
+	private JButton openMenu = new JButton("\\/");
 	private String itemUndefinedErrorText = "Item undefined";
 	private boolean returnToLastIfUndefind = true;
 	private int downs = 0;
 	private boolean isAutoCompleteNow = false;
 	private Color buttonBackgroundColor = Color.LIGHT_GRAY;
+
+	private JWindow popupWindow;
+
+	private JScrollPane popupWindowScrollPane;
 	public static final StylingManager DEFAULT_STYLIN_MANAGER = new StylingManager() {
 		
 		@Override
@@ -261,7 +265,13 @@ public class LSearchableComboBox<T> extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				openSelect();
+				if (popupWindow.isVisible()) {
+					popupWindow.setVisible(false);
+					openMenu.setText("\\/");
+				}else {
+					openSelect();
+					openMenu.setText("/\\");
+				}
 			}
 		});
 		this.field.getDocument().addDocumentListener(new DocumentListener() {
@@ -325,6 +335,7 @@ public class LSearchableComboBox<T> extends JPanel {
 			}
 		});
 		updateFieldFont();
+		createPopupWindow();
 	}
 	public LSearchableComboBox(T[] list) {
 		this(list, 0);
@@ -363,7 +374,17 @@ public class LSearchableComboBox<T> extends JPanel {
 		});
 	}
 	public void setSelectedItem(String itemString) {
-		this.index = indexOf(itemString);
+		if (isSourceListItem(itemString)) {
+			System.out.println("prev i is " + this.index);
+			this.index = indexOfSource(itemString);
+			System.out.println("next i is " + this.index);
+			System.out.println("prev ft is " + this.field.getText());
+			this.field.setText(list[index].display);
+			System.out.println("next ft is " + this.field.getText());
+			updateFieldFont();
+			this.field.revalidate();
+			this.field.repaint();
+		}
 	}
 	private void updateFieldFont() {
 		this.index = this.indexOf(this.field.getText());
@@ -376,9 +397,9 @@ public class LSearchableComboBox<T> extends JPanel {
 		}
 		return a;
 	}
-	public void openSelect() {
+	private void createPopupWindow() {
 		final LSearchableComboBox<T> current = this;
-		JWindow popupWindow = new JWindow();
+		popupWindow = new JWindow();
 		popupWindow.setLayout(new BorderLayout());
 		StyledList showList = new StyledList(list);
 		showList.setSelectedIndex(index);
@@ -390,34 +411,44 @@ public class LSearchableComboBox<T> extends JPanel {
 				current.field.setText(current.list[current.index].display);
 				updateFieldFont();
 				popupWindow.setVisible(false);
+				openMenu.setText("\\/");
 			}
 		});
-		JScrollPane sp = new JScrollPane(showList);
+		popupWindowScrollPane = new JScrollPane(showList);
 		showList.doLayout();
+		popupWindow.add(popupWindowScrollPane);
+		popupWindow.setSize(300, 300);
+	}
+	public void openSelect() {
 		int partHeight = 15;
 		int scrolling = partHeight * index;
 		scrolling -= (scrolling > 45? 45: scrolling);
-		popupWindow.add(sp);
-		popupWindow.setLocation(getLocationOnScreen().x, getLocationOnScreen().y + getHeight());
-		popupWindow.setSize(300, 300);
+		popupWindowScrollPane.getViewport().setViewPosition(new Point(0, scrolling));
 		popupWindow.setVisible(true);
-		sp.getViewport().setViewPosition(new Point(0, scrolling));
+		popupWindow.setLocation(getLocationOnScreen().x, getLocationOnScreen().y + getHeight());
 	}
-	private boolean isListItem(String itemString) {
-//		System.out.print("check " + itemString);
+	private boolean isSourceListItem(Object source) {
 		for (int i = 0; i < list.length; i++) {
-			if (list[i].display.equals(itemString)) {
-//				System.out.println(", item found");
+			if (list[i].source.equals(source)) {
 				return true;
 			}
 		}
-//		System.out.println(", item not found");
-//		try {
-//			Thread.sleep(1000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		return false;
+	}
+	public int indexOfSource(Object source) {
+		for (int i = 0; i < list.length; i++) {
+			if (list[i].source.equals(source)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	private boolean isListItem(String itemString) {
+		for (int i = 0; i < list.length; i++) {
+			if (list[i].display.equals(itemString)) {
+				return true;
+			}
+		}
 		return false;
 	}
 	public int indexOf(String itemString) {

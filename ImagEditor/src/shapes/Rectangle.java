@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import languages.Translator;
 import main.Main;
 
 public class Rectangle extends Shape{
@@ -58,7 +59,7 @@ public class Rectangle extends Shape{
 		sizePanel.add(heightField);
 		editDialog.add(sizePanel);
 		JPanel colorPanel = new JPanel(new BorderLayout());
-		colorPanel.add(new JLabel("color:"), BorderLayout.WEST);
+		colorPanel.add(new JLabel("color:"), Translator.getBeforeTextBorder());
 		JLabel colorLabel = new JLabel();
 		colorLabel.setOpaque(true);
 		colorLabel.setBackground(color);
@@ -71,7 +72,7 @@ public class Rectangle extends Shape{
 				colorLabel.setBackground(JColorChooser.showDialog(editDialog, "Choose Rectangle color", color));
 			}
 		});
-		colorPanel.add(setColorButton, BorderLayout.EAST);
+		colorPanel.add(setColorButton, Translator.getAfterTextBorder());
 		editDialog.add(colorPanel);
 		JButton done = new JButton("done");
 		final Rectangle cur = this;

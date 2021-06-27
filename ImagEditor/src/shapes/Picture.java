@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import effects.EffectsManger;
 import install.Install;
+import languages.Translator;
 import main.Main;
 
 public class Picture extends Shape{
@@ -84,7 +85,7 @@ public class Picture extends Shape{
 		sizePanel.add(heightField);
 		editDialog.add(sizePanel);
 		JPanel sourcePanel = new JPanel(new BorderLayout());
-		sourcePanel.add(new JLabel("Source:"), BorderLayout.WEST);
+		sourcePanel.add(new JLabel("Source:"), Translator.getBeforeTextBorder());
 		JTextField sourceField = new JTextField("don\'t change");
 		sourceField.setEditable(false);
 		sourcePanel.add(sourceField);
@@ -100,7 +101,7 @@ public class Picture extends Shape{
 				sourceField.setText(f.getAbsolutePath());
 			}
 		});
-		sourcePanel.add(browse, BorderLayout.EAST);
+		sourcePanel.add(browse, Translator.getAfterTextBorder());
 		editDialog.add(sourcePanel);
 		JButton done = new JButton("done");
 		final Picture cur = this;

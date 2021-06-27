@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import languages.Translator;
 import main.Main;
 import shapes.Picture;
 
@@ -117,7 +118,7 @@ public class EffectsManger extends Effect{
 			}
 		});
 		active.setSelected(effects.get(effect));
-		panel.add(active, BorderLayout.WEST);
+		panel.add(active, Translator.getBeforeTextBorder());
 		panel.add(new JLabel(effect.getClass().getSimpleName()));
 		JPanel actionsPanel = new JPanel(new GridLayout(1, 2));
 		JButton edit = new JButton("Edit Effect");
@@ -141,7 +142,7 @@ public class EffectsManger extends Effect{
 			}
 		});
 		actionsPanel.add(remove);
-		panel.add(actionsPanel, BorderLayout.EAST);
+		panel.add(actionsPanel, Translator.getAfterTextBorder());
 		return panel;
 	}
 }

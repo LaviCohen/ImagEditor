@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import components.LSlider;
+import languages.Translator;
 import main.Main;
 
 public class GreenScreenEffect extends Effect{
@@ -93,7 +94,7 @@ public class GreenScreenEffect extends Effect{
 			}
 		});
 		setColorPanel.add(pickColorButton);
-		colorPanel.add(setColorPanel, BorderLayout.EAST);
+		colorPanel.add(setColorPanel, Translator.getAfterTextBorder());
 		editGreenScreenDialog.add(colorPanel);
 		LSlider accuracySlider = new LSlider("Accuracy:", 0, 255, accuracy);
 		editGreenScreenDialog.add(accuracySlider);

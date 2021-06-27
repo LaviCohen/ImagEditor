@@ -2,13 +2,16 @@ package languages;
 
 import java.io.File;
 
+import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
+
 import javax.swing.JOptionPane;
 
 import install.Install;
 import main.Main;
 
 public class Translator {
-	public static Language language;
+	private static Language language;
 	public static final String DEFAULT_LANGUAGE = "English";
 	public static String get(String s) {
 		if (language == null) {
@@ -49,5 +52,23 @@ public class Translator {
 			return DEFAULT_LANGUAGE;
 		}
 		return language.name;
+	}
+	public static String getBeforeTextBorder() {
+		if (language != null && language.direction.equals("rtl")) {
+			return BorderLayout.EAST;
+		}
+		return BorderLayout.WEST;
+	}
+	public static String getAfterTextBorder() {
+		if (language != null && language.direction.equals("rtl")) {
+			return BorderLayout.WEST;
+		}
+		return BorderLayout.EAST;
+	}
+	public static ComponentOrientation getComponentOrientation() {
+		if (language != null && language.direction.equals("rtl")) {
+			return ComponentOrientation.RIGHT_TO_LEFT;
+		}
+		return ComponentOrientation.LEFT_TO_RIGHT;
 	}
 }

@@ -33,6 +33,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import languages.Translator;
+
 public class LSearchableComboBox<T> extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -260,7 +262,7 @@ public class LSearchableComboBox<T> extends JPanel {
 		this.field.setText(this.list[index].display);
 		this.setLayout(new BorderLayout());
 		this.add(field, BorderLayout.CENTER);
-		this.add(openMenu, BorderLayout.EAST);
+		this.add(openMenu, Translator.getAfterTextBorder());
 		openMenu.addActionListener(new ActionListener() {
 
 			@Override

@@ -2,6 +2,7 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -103,6 +104,8 @@ public class Main {
 		}
 	};
 	public static void main(String[] args) {
+		long millis = System.currentTimeMillis();
+		System.out.println("Start-Up");
 		Logger.initializeLogger();
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 			
@@ -182,12 +185,15 @@ public class Main {
 			public void windowActivated(WindowEvent e) {}
 		});
 		Install.init();
+		f.applyComponentOrientation(Translator.getComponentOrientation());
+		boardScrollPane.applyComponentOrientation(ComponentOrientation.UNKNOWN);
 		f.setVisible(true);
+		System.out.println("Init took " + (System.currentTimeMillis() - millis) + " milli-seconds");
 	}
 	public static void initControlBar() {
 		JPanel controlBar = new JPanel(new BorderLayout());
 		sizeLabel = new JLabel(board.paper.getWidth() + "x" + board.paper.getHeight());
-		controlBar.add(getSizeLabel(), BorderLayout.EAST);
+		controlBar.add(getSizeLabel(), Translator.getAfterTextBorder());
 		zoomSlider.slider.addChangeListener(new ChangeListener() {
 			
 			@Override
@@ -195,7 +201,7 @@ public class Main {
 				board.repaint();
 			}
 		});
-		controlBar.add(zoomSlider, BorderLayout.WEST);
+		controlBar.add(zoomSlider, Translator.getBeforeTextBorder());
 		f.add(controlBar, BorderLayout.SOUTH);
 	}
 	public static void initShapeListPanel() {
@@ -289,7 +295,7 @@ public class Main {
 			}
 		});
 		shapeListPanel.add(actionsPanel, BorderLayout.SOUTH);
-		f.add(shapeListPanel, BorderLayout.EAST);
+		f.add(shapeListPanel, Translator.getBeforeTextBorder());
 	}
 	public static void updateShapeList() {
 		System.out.println("Update shapeList");
@@ -309,7 +315,7 @@ public class Main {
 	public static void initJMenuBar() {
 		LMenu lMenu = new LMenu(new String[][] 
 				{
-			{"File", "Save#s", "Set Paper Size", "Set Language", "Visit Website"},
+			{"File", "Save#s", "Set Paper Size", "Set Language", "Send Report", "Visit Website"},
 			{"Actions", "Edit#e", "Set Paper Size", "Refresh#r"},
 			{"Add", "Rectangle@r", "Text@t", "Picture@p"},
 			{"Account", "Profile"}

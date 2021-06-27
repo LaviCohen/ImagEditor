@@ -120,7 +120,6 @@ public class Install {
 	}
 	public static void copyDirectory(File sourceLocation , File targetLocation)
 		    throws IOException {
-
 		if (sourceLocation.isDirectory()) {
 			if (!targetLocation.exists()) {
 				targetLocation.mkdir();

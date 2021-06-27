@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 public class Language {
 	public String name;
 	public HashMap<String, String> dictionary = new HashMap<String, String>();
-	
+	public String direction;
 	public Language(String name, File f) {
 		this.name = name;
 		try {
@@ -19,7 +19,9 @@ public class Language {
 				if (line.charAt(0) == 65279) {
 					line = line.substring(1);
 				}
-				if (!line.startsWith("#")) {
+				if (line.startsWith("Direction")) {
+					direction = line.split("=")[1];
+				}else if (!line.startsWith("#")) {
 					addToDictionary(line);
 				}
 			}

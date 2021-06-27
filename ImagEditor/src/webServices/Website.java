@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
@@ -36,13 +39,16 @@ public class Website {
 			e.printStackTrace();
 		}
 	}
-	public void sendReport(String name, String report) {
-		if (!checkInternetConnection() || !checkWebsite()) {
-			return;
+	public String sendReport(String name, String title, String report) {
+		if (!checkInternetConnection()) {
+			return "There is no internet connection, please try again later";
 		}
-		@SuppressWarnings("unused")
-		String urlParams = "name=" + name.replaceAll(" ", "+") + "&report=" + report.replaceAll(" ", "+");
-		System.out.println("reported");
+		if (!checkWebsite()) {
+			return "Web services are unavaliable right now, please try again later";
+		}
+		String urlParams = "name=" + name.replaceAll(" ", "+") + "&title=" + title.replaceAll(" ", "+") + 
+		"&report=" + report.replaceAll(" ", "+");
+		return getGetResponse(webAddress + "/report.php?" + urlParams);
 	}
 	public void sendAutoReport(Exception e, Thread t) {
 		if (!checkInternetConnection() || !checkWebsite()) {
@@ -147,10 +153,14 @@ public class Website {
 		}
 	}
 	private String getGetResponse(String url) {
+		System.out.println(url);
 		URL adress = null;
 		try {
-			adress = new URL(url);
+			adress = new URL(URLDecoder.decode(url, "UTF-32").replaceAll(" ", "+").replaceAll("\t", ""));
 		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

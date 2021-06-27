@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import install.Resources;
+import languages.Translator;
 import layouts.ListLayout;
 import main.Main;
 import shapes.Picture;
@@ -58,7 +59,7 @@ public class ShapeList extends JPanel{
 					showNhide.repaint();
 				}
 			});
-			this.add(showNhide, BorderLayout.EAST);
+			this.add(showNhide, Translator.getAfterTextBorder());
 			this.add(new JLabel(shape.getName()));
 			this.addMouseListener(new MouseListener() {
 				
@@ -89,7 +90,7 @@ public class ShapeList extends JPanel{
 					}
 				}
 			});
-			this.add(getSmallImage(shape), BorderLayout.WEST);
+			this.add(getSmallImage(shape), Translator.getBeforeTextBorder());
 		}
 		public static JPanel getSmallImage(Shape s) {
 			int shapeWidth = s.getWidthOnBoard();
@@ -152,8 +153,8 @@ public class ShapeList extends JPanel{
 		for (int i = 0; i < shapePanels.size(); i++) {
 			ShapePanel sp = shapePanels.get(i);
 			if (sp.shape == s) {
-				sp.remove(((BorderLayout)sp.getLayout()).getLayoutComponent(BorderLayout.WEST));
-				sp.add(ShapePanel.getSmallImage(s), BorderLayout.WEST);
+				sp.remove(((BorderLayout)sp.getLayout()).getLayoutComponent(Translator.getBeforeTextBorder()));
+				sp.add(ShapePanel.getSmallImage(s), Translator.getBeforeTextBorder());
 				sp.revalidate();
 				sp.repaint();
 				this.revalidate();

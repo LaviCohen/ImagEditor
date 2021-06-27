@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import languages.Translator;
+
 public class LSlider extends JPanel{
 
 	private static final long serialVersionUID = 1L;
@@ -20,11 +22,12 @@ public class LSlider extends JPanel{
 	public LSlider(String subject, int minValue, int maxValue, int defultValue) {
 		super(new BorderLayout());
 		this.subject = new JLabel(subject);
-		this.add(this.subject, BorderLayout.WEST);
+		this.add(this.subject, Translator.getBeforeTextBorder());
 		this.slider = new JSlider(minValue, maxValue, defultValue);
+		this.slider.setComponentOrientation(Translator.getComponentOrientation());
 		this.add(slider);
 		this.field = new JTextField(defultValue + "");
-		this.add(field, BorderLayout.EAST);
+		this.add(field, Translator.getAfterTextBorder());
 		this.slider.addChangeListener(new ChangeListener() {
 			
 			@Override

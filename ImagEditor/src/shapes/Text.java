@@ -23,6 +23,7 @@ import components.LSearchableComboBox;
 import components.LSearchableComboBox.Styler;
 import components.LSearchableComboBox.StylingManager;
 import components.LSlider;
+import languages.Translator;
 import main.Main;
 
 public class Text extends Shape{
@@ -56,12 +57,12 @@ public class Text extends Shape{
 		positionPanel.add(yField);
 		editDialog.add(positionPanel);
 		JPanel textPanel = new JPanel(new BorderLayout());
-		textPanel.add(new JLabel("text:"), BorderLayout.WEST);
+		textPanel.add(new JLabel("text:"), Translator.getBeforeTextBorder());
 		JTextField textField = new JTextField(text);
 		textPanel.add(textField);
 		editDialog.add(textPanel);
 		JPanel colorPanel = new JPanel(new BorderLayout());
-		colorPanel.add(new JLabel("color:"), BorderLayout.WEST);
+		colorPanel.add(new JLabel("color:"), Translator.getBeforeTextBorder());
 		JLabel colorLabel = new JLabel();
 		colorLabel.setOpaque(true);
 		colorLabel.setBackground(color);
@@ -69,7 +70,7 @@ public class Text extends Shape{
 		
 		
 		JPanel fontPanel = new JPanel(new BorderLayout());
-		fontPanel.add(new JLabel("font:"), BorderLayout.WEST);
+		fontPanel.add(new JLabel("font:"), Translator.getBeforeTextBorder());
 		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		LSearchableComboBox<String> fontsBox = new LSearchableComboBox<String>(fonts, 0, 
 				new StylingManager() {
@@ -88,7 +89,7 @@ public class Text extends Shape{
 		LSlider slider = new LSlider("Size:", 0, 100, this.font.getSize());
 		fontProps.add(slider);
 		JCheckBox isBold = new JCheckBox("Bold", this.font.isBold());
-		fontProps.add(isBold, BorderLayout.EAST);
+		fontProps.add(isBold, Translator.getAfterTextBorder());
 		editDialog.add(fontProps);
 		JButton setColorButton = new JButton("set color");
 		setColorButton.addActionListener(new ActionListener() {
@@ -98,7 +99,7 @@ public class Text extends Shape{
 				colorLabel.setBackground(JColorChooser.showDialog(editDialog, "Choose Text color", color));
 			}
 		});
-		colorPanel.add(setColorButton, BorderLayout.EAST);
+		colorPanel.add(setColorButton, Translator.getAfterTextBorder());
 		editDialog.add(colorPanel);
 		JButton done = new JButton("done");
 		final Text cur = this;

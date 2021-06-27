@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import components.LTextArea;
+import components.LTextField;
 import install.Install;
 import languages.Translator;
 import shapes.Picture;
@@ -36,7 +38,7 @@ public class Actions {
 					Integer.parseInt(JOptionPane.showInputDialog("Enter Width:")),
 					Integer.parseInt(JOptionPane.showInputDialog("Enter Height:")));
 		}else if (command.equals("Set Language")) {
-			Translator.showChangeLanguageDialog();
+			setLanguage();
 		}else if (command.equals("Rectangle")) {
 			addRectagle();
 		}else if (command.equals("Text")) {
@@ -52,14 +54,46 @@ public class Actions {
 			Main.myAccount.showAccount();
 		}else if (command.equals("Visit Website")) {
 			Main.website.openInBrowser();
+		}else if (command.equals("Send Report")) {
+			sendReport();
 		}
+	}
+	private static void sendReport() {
+		JDialog reportDialog = new JDialog(Main.f);
+		reportDialog.setTitle("Report");
+		JPanel headerPanel = new JPanel(new BorderLayout());
+		headerPanel.add(new JLabel(Translator.get("Title") + ":"), Translator.getBeforeTextBorder());
+		LTextField titleField = new LTextField("Your report title here");
+		headerPanel.add(titleField);
+		reportDialog.add(headerPanel, BorderLayout.NORTH);
+		LTextArea contentArea = new LTextArea("Your report content here");
+		reportDialog.add(contentArea);
+		JButton done = new JButton("done");
+		reportDialog.add(done, BorderLayout.SOUTH);
+		done.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(reportDialog,
+					Main.website.sendReport(Main.myAccount.userName, 
+						titleField.getText(), contentArea.getText()));
+				reportDialog.dispose();
+			}
+		});
+		reportDialog.pack();
+		reportDialog.setVisible(true);
+		reportDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	}
+	private static void setLanguage() {
+		Translator.showChangeLanguageDialog();
+		Install.default_setting.put("language", Translator.getLanguageName());
 	}
 	public static void save() {
 		JDialog saveDialog = new JDialog(Main.f);
 		saveDialog.setTitle("Save");
 		saveDialog.setLayout(new GridLayout(3, 1));
 		JPanel dirPanel = new JPanel(new BorderLayout());
-		dirPanel.add(new JLabel("Directory:"), BorderLayout.WEST);
+		dirPanel.add(new JLabel("Directory:"), Translator.getBeforeTextBorder());
 		JTextField dirField = new JTextField();
 		dirField.setEditable(false);
 		dirPanel.add(dirField);
@@ -77,13 +111,13 @@ public class Actions {
 				dirField.setText(f.getAbsolutePath());
 			}
 		});
-		dirPanel.add(browse, BorderLayout.EAST);
+		dirPanel.add(browse, Translator.getAfterTextBorder());
 		JPanel namePanel = new JPanel(new BorderLayout());
-		namePanel.add(new JLabel("Name"), BorderLayout.WEST);
+		namePanel.add(new JLabel("Name"), Translator.getBeforeTextBorder());
 		JTextField nameField = new JTextField("picture");
 		namePanel.add(nameField);
 		JComboBox<String> typeBox = new JComboBox<String>(new String[] {".png", ".jpg"});
-		namePanel.add(typeBox, BorderLayout.EAST);
+		namePanel.add(typeBox, Translator.getAfterTextBorder());
 		saveDialog.add(namePanel);
 		JButton save = new JButton("Save");
 		save.addActionListener(new ActionListener() {

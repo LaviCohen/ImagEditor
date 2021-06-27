@@ -29,9 +29,11 @@ public class Picture extends Shape{
 	
 	BufferedImage img;
 	public BufferedImage lastDrawn = null;
+	
 	//Picture size
 	int width;
 	int height;
+	
 	//Effects
 	EffectsManger effectsManger = new EffectsManger(this);
 	public Picture(int x, int y, boolean visible, String name, BufferedImage img, int width, int height) {

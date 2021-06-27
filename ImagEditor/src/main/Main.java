@@ -309,10 +309,10 @@ public class Main {
 	public static void initJMenuBar() {
 		LMenu lMenu = new LMenu(new String[][] 
 				{
-			{"File", "Save#s", "Set Paper Size", "Set Language"},
+			{"File", "Save#s", "Set Paper Size", "Set Language", "Visit Website"},
 			{"Actions", "Edit#e", "Set Paper Size", "Refresh#r"},
 			{"Add", "Rectangle@r", "Text@t", "Picture@p"},
-			{"Account", "profile"}
+			{"Account", "Profile"}
 				}
 		, menuListener);
 		f.setJMenuBar(lMenu);

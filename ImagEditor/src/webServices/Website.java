@@ -63,13 +63,13 @@ public class Website {
 		}
 		if (!checkWebsite()) {
 			System.out.println("website error");
-			JOptionPane.showMessageDialog(Main.f, "<html>Painter web support not avaliable now.<br/>"
-					+ "Please try again later.</html>", "No Internet Connection", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(Main.f, "<html>ImagEditor web support isn't avaliable now.<br/>"
+					+ "Please try again later.</html>", "Web Support Problem", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		URL url;
 		try {
-			url = new URL(webAddress + "lastest-version.html");
+			url = new URL(webAddress + "lastest-version.txt");
 			InputStream is = url.openStream();
 			Scanner reader = new Scanner(is);
 			double version = reader.nextDouble();
@@ -89,7 +89,7 @@ public class Website {
 				}
 			}
 			int answer = JOptionPane.showConfirmDialog(Main.f, "<html>There are a new version."
-					+ "<br/>want to look?"
+					+ "<br/>Do you want to take a look?"
 					+ "<br/>new features:<ol><li>" + s.replaceAll("\n", "</li><li>") + "</li></ol>"
 					+ "</html>");
 			if (answer == JOptionPane.YES_OPTION) {

@@ -21,29 +21,28 @@ public class Account {
 	
 	public String userName;
 	public String password;
+	public boolean isPremium;
 	
 	public static final String MALE = "male";
 	public static final String FEMALE = "female";
 	public static final String NONE_GENDER = "none";
 	
 	public String gender;
-	public boolean isPremium;
 	
 	
 	public static void login(String userName, String password) throws AccountUndefindException{
-		String s = Main.website.getResponse("getAccount.php", "userName=" + userName + "&" + "password=" + password, "POST");
-		login(s);
+		String userCode = Main.website.getResponse("getAccount.php", "userName=" + userName + "&" + "password=" + password, "POST");
+		if (userCode.equals("Account Undefined") || userCode == null || userCode.equals("") || userCode.equals("&&&&&&")) {
+			throw new AccountUndefindException("Account undefind, incorrect userName or password");
+		}else {
+			userCode = userName + "&&" + password + "&&" + userCode;
+			Main.myAccount = decode(userCode);
+		}
 		if (Main.myAccount.isPremium) {
 			Install.initPremiumSetting();
 		}
 	}
-	public static void login(String userCode) throws AccountUndefindException {
-		if (userCode.equals("Account Undefined") || userCode == null || userCode.equals("") || userCode.equals("&&&&&&")) {
-			throw new AccountUndefindException("Account undefind, incorrect userName or password");
-		}else {
-			Main.myAccount = decode(userCode);
-		}
-	}
+	
 	public static Account decode(String s) {
 		String [] properties = s.split("&&");
 		return new Account(properties[0], properties[1], properties[2], Boolean.valueOf(properties[3]));

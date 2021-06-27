@@ -48,8 +48,10 @@ public class Actions {
 		}else if (command.equals("Refresh")) {
 			Main.board.repaint();
 			Main.updateShapeList();
-		}else if(command.equals("profile")) {
+		}else if(command.equals("Profile")) {
 			Main.myAccount.showAccount();
+		}else if (command.equals("Visit Website")) {
+			Main.website.openInBrowser();
 		}
 	}
 	public static void save() {

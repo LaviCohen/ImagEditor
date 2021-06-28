@@ -39,6 +39,7 @@ import shapes.Text;
 import webServices.Account;
 import webServices.Website;
 
+
 /**
  * This class contains the main method and set up the whole program.
  * In addition, this class keeps all the static important variables, for example:

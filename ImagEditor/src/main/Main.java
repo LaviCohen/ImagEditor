@@ -11,6 +11,7 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.nio.file.Files;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,8 +39,6 @@ import shapes.Shape;
 import shapes.Text;
 import webServices.Account;
 import webServices.Website;
-
-
 
 /**
  * This class contains the main method and set up the whole program.
@@ -108,6 +107,14 @@ public class Main {
 	public static void main(String[] args) {
 		long millis = System.currentTimeMillis();
 		System.out.println("Start-Up");
+		if (Install.getFile("Data\\Logs\\live log.txt").exists()) {
+			if(JOptionPane.YES_OPTION == 
+					JOptionPane.showConfirmDialog(null, "<html>Last time, the app crashed.<br/>"
+					+ "would you like to send us auto report about it?</html>")){
+				website.sendReport("Auto Reporter", "Crash Report", 
+						Install.getText("Data\\Logs\\live log.txt"));
+			}
+		}
 		Logger.initializeLogger();
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 			
@@ -181,7 +188,9 @@ public class Main {
 						e1.printStackTrace();
 					}
 				}
-				System.exit(-1);
+				Logger.stop();
+				System.gc();
+				new File(Install.path + "\\Data\\Logs\\live log.txt").deleteOnExit();
 			}
 			@Override
 			public void windowActivated(WindowEvent e) {}
@@ -190,6 +199,7 @@ public class Main {
 		f.applyComponentOrientation(Translator.getComponentOrientation());
 		boardScrollPane.applyComponentOrientation(ComponentOrientation.UNKNOWN);
 		f.setVisible(true);
+		System.exit(-1);
 		System.out.println("Init took " + (System.currentTimeMillis() - millis) + " milli-seconds");
 	}
 	public static void initControlBar() {

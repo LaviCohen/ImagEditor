@@ -156,7 +156,8 @@ public class Website {
 		System.out.println(url);
 		URL adress = null;
 		try {
-			adress = new URL(URLDecoder.decode(url, "UTF-32").replaceAll(" ", "+").replaceAll("\t", ""));
+			adress = new URL(URLDecoder.decode(url, "UTF-32").replaceAll(" ", "+")
+					.replaceAll("\t", "").replaceAll("\n", ""));
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -164,6 +165,7 @@ public class Website {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(adress);
 		Scanner reader = null;
 		try {
 			reader = new Scanner(adress.openStream());

@@ -36,7 +36,7 @@ public class Logger {
 		}) {
 			@Override
 			public void println(String x) {
-				super.println(x + (addTimeStamp?" in (" + System.currentTimeMillis() + ")":""));
+				super.println(x + (addTimeStamp?" timestamp " + System.currentTimeMillis() + "":""));
 			}
 		};
 		errorLogger = new PrintStream(new OutputStream() {
@@ -67,9 +67,12 @@ public class Logger {
 	}
 	public static void initializeLiveLogger() {
 		try {
+			Install.getFile("Data\\Logs\\live log.txt").createNewFile();
 			liveLogger = new PrintStream(Install.getFile("Data\\Logs\\live log.txt"));
 		} catch (FileNotFoundException e) {
 			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	public static void exportTo(File f) {
@@ -119,5 +122,16 @@ public class Logger {
 				+ "</font>"
 				+ "<br/>--------------------<br/>";
 		return s;
+	}
+	public static void stop() {
+		logger = null;
+		errorLogger = null;
+		liveLogger = null;
+		log = null;
+		errorLog = null;
+		System.setOut(console);
+		System.setErr(err);
+		console = null;
+		err = null;
 	}
 }

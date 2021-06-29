@@ -11,7 +11,6 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.nio.file.Files;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -105,15 +104,17 @@ public class Main {
 		}
 	};
 	public static void main(String[] args) {
-		long millis = System.currentTimeMillis();
 		System.out.println("Start-Up");
+		long millis = System.currentTimeMillis();
 		if (Install.getFile("Data\\Logs\\live log.txt").exists()) {
+			long pause = System.currentTimeMillis();
 			if(JOptionPane.YES_OPTION == 
 					JOptionPane.showConfirmDialog(null, "<html>Last time, the app crashed.<br/>"
 					+ "would you like to send us auto report about it?</html>")){
 				website.sendReport("Auto Reporter", "Crash Report", 
 						Install.getText("Data\\Logs\\live log.txt"));
 			}
+			millis += System.currentTimeMillis() - pause;
 		}
 		Logger.initializeLogger();
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
@@ -199,7 +200,6 @@ public class Main {
 		f.applyComponentOrientation(Translator.getComponentOrientation());
 		boardScrollPane.applyComponentOrientation(ComponentOrientation.UNKNOWN);
 		f.setVisible(true);
-		System.exit(-1);
 		System.out.println("Init took " + (System.currentTimeMillis() - millis) + " milli-seconds");
 	}
 	public static void initControlBar() {
@@ -327,10 +327,14 @@ public class Main {
 	public static void initJMenuBar() {
 		LMenu lMenu = new LMenu(new String[][] 
 				{
-			{"File", "Save#s", "Set Paper Size", "Set Language", "Send Report", "Visit Website"},
-			{"Actions", "Edit#e", "Set Paper Size", "Refresh#r"},
-			{"Add", "Rectangle@r", "Text@t", "Picture@p"},
-			{"Account", "Profile"}
+			{Translator.get("File"), Translator.get("Save") + "#s", Translator.get("Set Paper Size"),
+				Translator.get("Set Language"), Translator.get("Send Report"),
+				Translator.get("Visit Website")},
+			{Translator.get("Actions"), Translator.get("Edit") + "#e", Translator.get("Set Paper Size"),
+				Translator.get("Refresh") + "#r"},
+			{Translator.get("Add"), Translator.get("Rectangle") + "@r", Translator.get("Text") + "@t", 
+				Translator.get("Picture") + "@p"},
+			{Translator.get("Account"), Translator.get("Profile")}
 				}
 		, menuListener);
 		f.setJMenuBar(lMenu);

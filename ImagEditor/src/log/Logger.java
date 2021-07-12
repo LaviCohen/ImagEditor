@@ -11,16 +11,16 @@ import install.Install;
 
 public class Logger {
 	public static boolean printInConsole = true;
-	public static boolean addTimeStamp = true;
 	public static boolean saveLogFiles = true;
 	public static PrintStream console = System.out;
 	public static PrintStream err = System.err;
+	private static boolean addTimeStamp = true;
 	private static PrintStream logger;
 	private static PrintStream errorLogger;
 	private static PrintStream liveLogger;
 	private static StringBuffer log = new StringBuffer();
 	private static StringBuffer errorLog = new StringBuffer();
-	public static int errorCount = 0;
+	private static int errorCount = 0;
 	
 	public static void initializeLogger() {
 		logger = new PrintStream(new OutputStream() {
@@ -36,7 +36,7 @@ public class Logger {
 		}) {
 			@Override
 			public void println(String x) {
-				super.println(x + (addTimeStamp?" timestamp " + System.currentTimeMillis() + "":""));
+				super.println(x + (isAddTimeStamp()?" (timestamp " + System.currentTimeMillis() + ")":""));
 			}
 		};
 		errorLogger = new PrintStream(new OutputStream() {
@@ -95,11 +95,11 @@ public class Logger {
 		return errorLog.toString();
 	}
 	public static void reportInLog(Exception e, Thread t) {
-		errorLogger.println(exceptionToString(e, t, errorCount));
+		System.out.println("Error has been reported - ID " + ++errorCount);
+		errorLogger.println(exceptionToString(e, t, getErrorCount()));
 	}
 	@SuppressWarnings("static-access")
 	public static String exceptionToString(Exception e, Thread t, int ID) {
-		System.out.println("report");
 		Calendar c = Calendar.getInstance();
 		String realClass = null;
 		String method = null;
@@ -113,11 +113,11 @@ public class Logger {
 				break;
 			}
 		}
-		String s = "<font color = red>" + e.toString() 
-				+ "<br/>Thread: " + t.getName()
+		String s = "<font color = red>" + e.toString()
 				+ "<br/>Place: " + realClass + "(" + (line < 0 ? "Unknown Source" : 
 					"Method: " + method + ", line: " + line) + ")"
-				+ "<br/>Time: " + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND) + "." + c.get(c.MILLISECOND)
+				+ "<br/>Time: " + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND) + " (" + c.get(c.MILLISECOND) + " ms)" 
+				+ "<br/>Thread: " + t.getName()
 				+ "<br/>ID: " + ID
 				+ "</font>"
 				+ "<br/>--------------------<br/>";
@@ -133,5 +133,17 @@ public class Logger {
 		System.setErr(err);
 		console = null;
 		err = null;
+	}
+	public static int getErrorCount() {
+		return errorCount;
+	}
+	public static boolean isAddTimeStamp() {
+		return addTimeStamp;
+	}
+	public static void enableTimeStamp() {
+		Logger.addTimeStamp = true;
+	}
+	public static void disableTimeStamp() {
+		Logger.addTimeStamp = false;
 	}
 }

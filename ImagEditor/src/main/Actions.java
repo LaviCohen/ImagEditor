@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -19,12 +21,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import components.LTextArea;
 import components.LTextField;
 import install.Install;
 import languages.Translator;
+import log.Logger;
 import shapes.Picture;
 import shapes.Rectangle;
 import shapes.Text;
@@ -56,7 +60,57 @@ public class Actions {
 			Main.website.openInBrowser();
 		}else if (command.equals("Send Report")) {
 			sendReport();
+		}else if (command.equals("Log")) {
+			openLog();
 		}
+	}
+	/**
+	 * Method that create two GUI dialogs, one for general log and one for error log.
+	 * @see Logger
+	 * */
+	public static void openLog() {
+		//General log
+		JDialog generalLog = new JDialog(Main.f);
+		generalLog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		generalLog.setTitle(Translator.get("General Log"));
+		generalLog.setLayout(new BorderLayout());
+		generalLog.add(new JLabel("<html><b>" + Translator.get("General Log") + "</b></html>"), BorderLayout.NORTH);
+		String styledText = "<html>" + Logger.getLog().replaceAll("\n", "<br/>") + "</html>";
+		generalLog.add(new JScrollPane(new JLabel(styledText)));
+		JButton copyGeneralLog = new JButton("Copy");
+		copyGeneralLog.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(Logger.getLog()), null);
+			}
+		});
+		generalLog.add(copyGeneralLog, BorderLayout.SOUTH);
+		generalLog.pack();
+		generalLog.setSize(generalLog.getWidth() > 500 ? 500 : generalLog.getWidth(),
+				generalLog.getHeight() > 500 ? 500 : generalLog.getHeight());
+		generalLog.setVisible(true);
+		//Error log
+		JDialog errorLog = new JDialog(Main.f);
+		errorLog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		errorLog.setTitle(Translator.get("Error Log"));
+		errorLog.setLayout(new BorderLayout());
+		errorLog.add(new JLabel("<html><b>" + Translator.get("Error Log") + "</b></html>"), BorderLayout.NORTH);
+		styledText = "<html>" + Logger.getErrorLog().replaceAll("\n", "<br/>") + "</html>";
+		errorLog.add(new JScrollPane(new JLabel(styledText)));
+		JButton copyErrorLog = new JButton("Copy");
+		copyErrorLog.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(Logger.getErrorLog()), null);
+			}
+		});
+		errorLog.add(copyErrorLog, BorderLayout.SOUTH);
+		errorLog.pack();
+		errorLog.setBounds(generalLog.getWidth(), 0,
+				errorLog.getWidth() > 500 ? 500 : errorLog.getWidth(), errorLog.getHeight() > 500 ? 500 : errorLog.getHeight());
+		errorLog.setVisible(true);
 	}
 	private static void sendReport() {
 		JDialog reportDialog = new JDialog(Main.f);

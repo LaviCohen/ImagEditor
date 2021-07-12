@@ -44,7 +44,7 @@ public class Translator {
 		setLanguage(ans);
 		Install.setDefaultSetting("Language", ans);
 		JOptionPane.showMessageDialog(Main.f, 
-				"<html>To change the language totally,<br/>"
+				"<html>To change the language properly,<br/>"
 				+ "close the program and reopen it.</html>");
 	}
 	public static Object getLanguageName() {

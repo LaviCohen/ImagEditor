@@ -101,9 +101,10 @@ public class Main {
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
 			System.out.println("Menu Event [" + command + "]");
-			Actions.action(command);
+			Actions.action(Translator.get(command));
 		}
 	};
+	private static long initTime;
 	public static void main(String[] args) {
 		System.out.println("Start-Up");
 		long millis = System.currentTimeMillis();
@@ -122,10 +123,9 @@ public class Main {
 			
 			@Override
 			public void uncaughtException(Thread t, Throwable e) {
-				Logger.errorCount++;
 				Logger.reportInLog((Exception) e, t);
 				if (Logger.printInConsole) {
-					e.printStackTrace();
+					e.printStackTrace(Logger.err);
 				}
 			}
 		});
@@ -184,6 +184,8 @@ public class Main {
 							"Data\\Logs\\Log saved at " + System.currentTimeMillis() + ".txt");
 					try {
 						f.createNewFile();
+						Logger.disableTimeStamp();
+						System.out.println("Run statistics:\nErrors: " + Logger.getErrorCount() + "\nInit Time: " + initTime + " ms");
 						Logger.exportTo(f);
 						System.out.println("Log file saved successfully");
 					} catch (IOException e1) {
@@ -201,7 +203,8 @@ public class Main {
 		f.applyComponentOrientation(Translator.getComponentOrientation());
 		boardScrollPane.applyComponentOrientation(ComponentOrientation.UNKNOWN);
 		f.setVisible(true);
-		System.out.println("Init took " + (System.currentTimeMillis() - millis) + " milli-seconds");
+		initTime = (System.currentTimeMillis() - millis);
+		System.out.println("Init took " + initTime + " milli-seconds");
 	}
 	public static void initControlBar() {
 		JPanel controlBar = new JPanel(new BorderLayout());
@@ -329,7 +332,7 @@ public class Main {
 		LMenu lMenu = new LMenu(new String[][] 
 				{
 			{Translator.get("File"), Translator.get("Save") + "#s", Translator.get("Set Paper Size"),
-				Translator.get("Set Language"), Translator.get("Send Report"),
+				Translator.get("Set Language"), Translator.get("Log"), Translator.get("Send Report"),
 				Translator.get("Visit Website")},
 			{Translator.get("Actions"), Translator.get("Edit") + "#e", Translator.get("Set Paper Size"),
 				Translator.get("Refresh") + "#r"},

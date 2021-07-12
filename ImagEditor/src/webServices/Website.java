@@ -56,7 +56,7 @@ public class Website {
 		}
         @SuppressWarnings("unused")
 		String urlParams = "exception=" + e.toString().replaceAll(" ", "+") + 
-        		"&description=" + Logger.exceptionToString(e, t, Logger.errorCount).replace(" ", "+") + 
+        		"&description=" + Logger.exceptionToString(e, t, Logger.getErrorCount()).replace(" ", "+") + 
 		"&place=" + getErrorPlace(e).replaceAll(" ", "+");
 		System.out.println("reported");
 	}

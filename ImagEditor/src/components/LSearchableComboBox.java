@@ -196,9 +196,7 @@ public class LSearchableComboBox<T> extends JPanel {
 			for (int i = 0; i < panels.size(); i++) {
 				panels.get(i).setBounds(0, totalHeight, parent.getWidth(), 15);
 				totalHeight += panels.get(i).getSize().height;
-				//System.out.println(i);
 			}
-//			System.out.println(totalHeight);
 			lastTotalHeight = totalHeight;
 		}
 		@Override
@@ -377,12 +375,8 @@ public class LSearchableComboBox<T> extends JPanel {
 	}
 	public void setSelectedItem(String itemString) {
 		if (isSourceListItem(itemString)) {
-			System.out.println("prev i is " + this.index);
 			this.index = indexOfSource(itemString);
-			System.out.println("next i is " + this.index);
-			System.out.println("prev ft is " + this.field.getText());
 			this.field.setText(list[index].display);
-			System.out.println("next ft is " + this.field.getText());
 			updateFieldFont();
 			this.field.revalidate();
 			this.field.repaint();

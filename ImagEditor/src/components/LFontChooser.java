@@ -2,10 +2,11 @@ package components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dialog.ModalityType;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,21 +22,30 @@ import components.LSearchableComboBox.StylingManager;
 
 public class LFontChooser {
 	private static final Font DEFAULT_FONT = Font.decode("Arial");
-	private static Font returnedFont = null;
+	public static class FontHolder{
+		Font font;
+		public FontHolder(Font font) {
+			this.font = font;
+		}
+		public Font getFont() {
+			return font;
+		}
+
+		public void setFont(Font font) {
+			this.font = font;
+		}
+	}
 	private static final String DEFAULT_PREVIEW_TEXT = "<html>Your text will look like this:<br/>"
 			+ "abcdefghijklmnopqrstuvwxyz1234567890/*-+!@#$%^&*()_+?\\/\'\":`~;</html>";
-	public static void main(String[] args) {
-		System.out.println(openChooseFontDialog(null, null, DEFAULT_FONT, DEFAULT_PREVIEW_TEXT));
-	}
-	public static synchronized Font openChooseFontDialog(Frame owner, String title, Font baseFont, String previewText) {
+	public static Font openChooseFontDialog(Window owner, String title, Font baseFont, String previewText) {
 		if (baseFont == null) {
 			baseFont = DEFAULT_FONT;
 		}
 		if (owner == null) {
 			owner = JOptionPane.getRootFrame();
 		}
-		returnedFont = baseFont;
-		JDialog dialog = new JDialog(owner, title, true);
+		FontHolder fontHolder = new FontHolder(baseFont);
+		JDialog dialog = new JDialog(owner, title, ModalityType.APPLICATION_MODAL);
 		dialog.setLayout(new BorderLayout());
 		LSearchableComboBox<String> familyBox = new LSearchableComboBox<>(
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames(), 0, 
@@ -68,8 +78,9 @@ public class LFontChooser {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int style = (bold.isSelected() ? Font.BOLD : 0) + (italic.isSelected() ? Font.ITALIC : 0);
-				returnedFont = new Font(familyBox.getSelectedItem(), style, sizeSlider.getValue());
-				openPreviwDialog(previewText == null ? DEFAULT_PREVIEW_TEXT : previewText, dialog, returnedFont);
+				fontHolder.setFont(
+						new Font(familyBox.getSelectedItem(), style, sizeSlider.getValue()));
+				openPreviwDialog(previewText == null ? DEFAULT_PREVIEW_TEXT : previewText, dialog, fontHolder.getFont());
 			}
 		});
 		buttons.add(previewButton);
@@ -79,7 +90,8 @@ public class LFontChooser {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int style = (bold.isSelected() ? Font.BOLD : 0) + (italic.isSelected() ? Font.ITALIC : 0);
-				returnedFont = new Font(familyBox.getSelectedItem(), style, sizeSlider.getValue());
+				fontHolder.setFont(
+						new Font(familyBox.getSelectedItem(), style, sizeSlider.getValue()));
 				dialog.setVisible(false);
 			}
 		});
@@ -89,7 +101,7 @@ public class LFontChooser {
 		dialog.pack();
 		dialog.setVisible(true);
 		dialog.dispose();
-		return returnedFont;
+		return fontHolder.getFont();
 	}
 	private static void openPreviwDialog(String text, JDialog parent, Font font) {
 		JDialog dialog = new JDialog(parent, "Preview", true);

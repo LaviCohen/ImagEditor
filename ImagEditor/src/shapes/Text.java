@@ -4,14 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -19,10 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import components.LSearchableComboBox;
-import components.LSearchableComboBox.Styler;
-import components.LSearchableComboBox.StylingManager;
-import components.LSlider;
+import components.LFontChooser;
+import components.LFontChooser.FontHolder;
 import languages.Translator;
 import main.Main;
 
@@ -46,7 +42,7 @@ public class Text extends Shape{
 	@Override
 	public void edit() {
 		JDialog editDialog = new JDialog(Main.f);
-		editDialog.setLayout(new GridLayout(6, 1));
+		editDialog.setLayout(new GridLayout(5, 1));
 		editDialog.setTitle("Edit Text");
 		JPanel positionPanel = new JPanel(new GridLayout(1, 4));
 		positionPanel.add(new JLabel("X:"));
@@ -67,30 +63,16 @@ public class Text extends Shape{
 		colorLabel.setOpaque(true);
 		colorLabel.setBackground(color);
 		colorPanel.add(colorLabel);
-		
-		
-		JPanel fontPanel = new JPanel(new BorderLayout());
-		fontPanel.add(new JLabel("font:"), Translator.getBeforeTextBorder());
-		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		LSearchableComboBox<String> fontsBox = new LSearchableComboBox<String>(fonts, 0, 
-				new StylingManager() {
+		FontHolder fontHolder = new FontHolder(this.font);
+		JButton setFont = new JButton("Set Font");
+		setFont.addActionListener(new ActionListener() {
 			
 			@Override
-			public Styler getStylerFor(Object source) {
-				return new Styler(source, source + "       ABCDE", source.toString(), Color.BLACK);
+			public void actionPerformed(ActionEvent e) {
+				fontHolder.setFont(LFontChooser.openChooseFontDialog(editDialog, "Set Font", fontHolder.getFont(), null));
 			}
 		});
-		fontsBox.setSelectedItem(this.font.getFamily());
-		fontPanel.add(fontsBox);
-		editDialog.add(fontPanel);
-		
-		
-		JPanel fontProps = new JPanel(new BorderLayout());
-		LSlider slider = new LSlider("Size:", 0, 100, this.font.getSize());
-		fontProps.add(slider);
-		JCheckBox isBold = new JCheckBox("Bold", this.font.isBold());
-		fontProps.add(isBold, Translator.getAfterTextBorder());
-		editDialog.add(fontProps);
+		editDialog.add(setFont);
 		JButton setColorButton = new JButton("set color");
 		setColorButton.addActionListener(new ActionListener() {
 			
@@ -112,14 +94,11 @@ public class Text extends Shape{
 					int y = Integer.parseInt(yField.getText());
 					String text = textField.getText();
 					Color color = colorLabel.getBackground();
-					String fontName = (String) fontsBox.getSelectedItem();
-					int size = slider.getValue();
-					boolean bold = isBold.isSelected();
 					cur.x = x;
 					cur.y = y;
 					cur.text = text;
 					cur.color = color;
-					cur.font = new Font(fontName, bold?Font.BOLD:Font.PLAIN, size);
+					cur.font = fontHolder.getFont();
 					editDialog.dispose();
 					Main.getShapeList().updateImage(cur);
 					Main.board.repaint();
@@ -130,6 +109,7 @@ public class Text extends Shape{
 		});
 		editDialog.add(done);
 		editDialog.pack();
+		editDialog.setSize(editDialog.getWidth() + 50, editDialog.getHeight());
 		editDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		editDialog.setVisible(true);
 	}

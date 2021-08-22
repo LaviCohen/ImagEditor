@@ -113,17 +113,38 @@ public class Text extends Shape{
 		editDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		editDialog.setVisible(true);
 	}
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public int getWidthOnBoard() {
 		return Toolkit.getDefaultToolkit().getFontMetrics(font).stringWidth(text);
 	}
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public int getHeightOnBoard() {
 		return Toolkit.getDefaultToolkit().getFontMetrics(font).getHeight();
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public Font getFont() {
+		return font;
+	}
+
+	public void setFont(Font font) {
+		this.font = font;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
 }

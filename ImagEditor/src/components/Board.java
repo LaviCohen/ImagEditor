@@ -13,10 +13,12 @@ import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import main.Main;
 import shapes.Shape;
+import shapes.Text;
 
 public class Board extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -74,12 +76,23 @@ public class Board extends JPanel{
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				System.out.println(e.getClickCount());
+				shapeInFocus = getShapeAt(
+						(int)((e.getX() - getLeftGap()) / getZoomRate()),
+						(int)((e.getY() - getUpGap()) / getZoomRate()));
 				if (e.getButton() == MouseEvent.BUTTON3) {
-					shapeInFocus = getShapeAt(
-							(int)((e.getX() - getLeftGap()) / getZoomRate()),
-							(int)((e.getY() - getUpGap()) / getZoomRate()));
 					if (shapeInFocus != null) {
 						Main.getPopupMenuForShape(shapeInFocus).show(cur, e.getX(), e.getY());
+					}
+				}
+				if(e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1 
+						&& shapeInFocus instanceof Text){
+					String text = JOptionPane.
+							showInputDialog(cur, "Enter Text:", ((Text)shapeInFocus).getText());
+					if (text != null && !text.equals(((Text)shapeInFocus).getText())) {
+						((Text)shapeInFocus).setText(text);
+						cur.repaint();
+						Main.getShapeList().updateImage(shapeInFocus);
 					}
 				}
 			}

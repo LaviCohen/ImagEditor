@@ -38,10 +38,13 @@ public class Translator {
 			displayLanguages[i] = 
 					allLanguages[i - 1].substring(0, allLanguages[i - 1].indexOf('.'));
 		}
-		String ans = JOptionPane.showInputDialog(Main.f, "Choose Language:", "Languages",
+		Object ans = JOptionPane.showInputDialog(Main.f, "Choose Language:", "Languages",
 				JOptionPane.QUESTION_MESSAGE, null, displayLanguages, 
-				getLanguageName()).toString();
-		setLanguage(ans);
+				getLanguageName());
+		if (ans == null) {
+			return;
+		}
+		setLanguage(ans.toString());
 		Install.setDefaultSetting("Language", ans);
 		JOptionPane.showMessageDialog(Main.f, 
 				"<html>To change the language properly,<br/>"

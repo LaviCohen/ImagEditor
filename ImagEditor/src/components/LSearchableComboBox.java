@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.LayoutManager2;
@@ -21,12 +22,12 @@ import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -49,7 +50,7 @@ public class LSearchableComboBox<T> extends JPanel {
 	private boolean isAutoCompleteNow = false;
 	private Color buttonBackgroundColor = Color.LIGHT_GRAY;
 
-	private JWindow popupWindow;
+	private JDialog popupWindow;
 
 	private JScrollPane popupWindowScrollPane;
 	public static final StylingManager DEFAULT_STYLIN_MANAGER = new StylingManager() {
@@ -265,8 +266,8 @@ public class LSearchableComboBox<T> extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (popupWindow.isVisible()) {
-					popupWindow.setVisible(false);
+				if (popupWindow != null) {
+					popupWindow.dispose();
 					openMenu.setText("\\/");
 				}else {
 					openSelect();
@@ -335,7 +336,6 @@ public class LSearchableComboBox<T> extends JPanel {
 			}
 		});
 		updateFieldFont();
-		createPopupWindow();
 	}
 	public LSearchableComboBox(T[] list) {
 		this(list, 0);
@@ -393,9 +393,19 @@ public class LSearchableComboBox<T> extends JPanel {
 		}
 		return a;
 	}
+	private static Dialog getParentDialog(Component component) {
+		if (component == null) {
+			return null;
+		}
+		if (component instanceof Dialog) {
+			return (Dialog)component;
+		}
+		return getParentDialog(component.getParent());
+	}
 	private void createPopupWindow() {
 		final LSearchableComboBox<T> current = this;
-		popupWindow = new JWindow();
+		popupWindow = new JDialog(getParentDialog(this), true);
+		popupWindow.setUndecorated(true);
 		popupWindow.setLayout(new BorderLayout());
 		StyledList showList = new StyledList(list);
 		showList.setSelectedIndex(index);
@@ -406,7 +416,8 @@ public class LSearchableComboBox<T> extends JPanel {
 				current.index = showList.getSelectedIndex();
 				current.field.setText(current.list[current.index].display);
 				updateFieldFont();
-				popupWindow.setVisible(false);
+				popupWindow.dispose();
+				popupWindow = null;
 				openMenu.setText("\\/");
 			}
 		});
@@ -419,9 +430,10 @@ public class LSearchableComboBox<T> extends JPanel {
 		int partHeight = 15;
 		int scrolling = partHeight * index;
 		scrolling -= (scrolling > 45? 45: scrolling);
+		createPopupWindow();
 		popupWindowScrollPane.getViewport().setViewPosition(new Point(0, scrolling));
-		popupWindow.setVisible(true);
 		popupWindow.setLocation(getLocationOnScreen().x, getLocationOnScreen().y + getHeight());
+		popupWindow.setVisible(true);
 	}
 	private boolean isSourceListItem(Object source) {
 		for (int i = 0; i < list.length; i++) {

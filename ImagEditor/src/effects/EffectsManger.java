@@ -102,7 +102,6 @@ public class EffectsManger extends Effect{
 			public void componentHidden(ComponentEvent e) {
 				parent.lastDrawn = null;
 				Main.board.repaint();
-				Main.board.repaint();
 			}
 		});
 		effectManagerDialog.setVisible(true);

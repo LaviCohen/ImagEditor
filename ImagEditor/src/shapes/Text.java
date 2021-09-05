@@ -83,7 +83,7 @@ public class Text extends Shape{
 		});
 		colorPanel.add(setColorButton, Translator.getAfterTextBorder());
 		editDialog.add(colorPanel);
-		JButton apply = new JButton("apply");
+		JButton apply = new JButton("Apply");
 		final Text cur = this;
 		apply.addActionListener(new ActionListener() {
 			
@@ -107,7 +107,32 @@ public class Text extends Shape{
 				}
 			}
 		});
-		editDialog.add(apply);
+		JButton preview = new JButton("Preview");
+		preview.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int x = Integer.parseInt(xField.getText());
+					int y = Integer.parseInt(yField.getText());
+					String text = textField.getText();
+					Color color = colorLabel.getBackground();
+					cur.x = x;
+					cur.y = y;
+					cur.text = text;
+					cur.color = color;
+					cur.font = fontHolder.getFont();
+					Main.getShapeList().updateImage(cur);
+					Main.board.repaint();
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(Main.f, "Invalid input", "Error", JOptionPane.ERROR_MESSAGE);
+				}		
+			}
+		});
+		JPanel actionPanel = new JPanel(new BorderLayout());
+		actionPanel.add(apply);
+		actionPanel.add(preview, BorderLayout.EAST);
+		editDialog.add(actionPanel);
 		editDialog.pack();
 		editDialog.setSize(editDialog.getWidth() + 50, editDialog.getHeight());
 		editDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

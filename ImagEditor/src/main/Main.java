@@ -401,8 +401,7 @@ public class Main {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Main.board.addShape(new Picture(0, 0, true, "Copy of " + s.getName(), ((Picture)s).getImageToDisplay(), 
-						((Picture)s).getWidth(), ((Picture)s).getHeight()));
+				Main.board.addShape(((Picture)s).copy());
 			}
 		});
 		popup.add(copy);

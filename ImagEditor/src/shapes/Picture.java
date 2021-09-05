@@ -28,7 +28,7 @@ import main.Main;
 
 public class Picture extends Shape{
 	
-	BufferedImage img;
+	BufferedImage image;
 	public BufferedImage lastDrawn = null;
 	
 	//Picture size
@@ -39,7 +39,7 @@ public class Picture extends Shape{
 	EffectsManger effectsManger = new EffectsManger(this);
 	public Picture(int x, int y, boolean visible, String name, BufferedImage img, int width, int height) {
 		super(x, y, visible, name);
-		this.img = img;
+		this.image = img;
 		this.width = width;
 		this.height = height;
 	}
@@ -51,17 +51,17 @@ public class Picture extends Shape{
 		g.drawImage(lastDrawn, x, y, getWidthOnBoard(), getHeightOnBoard(), null);
 	}
 	public BufferedImage getImageToDisplay() {
-		BufferedImage displayImage = getScaledImage(img, getWidthOnBoard(), getHeightOnBoard());
+		BufferedImage displayImage = getScaledImage(image, getWidthOnBoard(), getHeightOnBoard());
     	effectsManger.getImage(displayImage);
     	return displayImage;
 	}
 	@Override
 	public int getWidthOnBoard() {
-		return (img.getWidth() * width)/100;
+		return (image.getWidth() * width)/100;
 	}
 	@Override
 	public int getHeightOnBoard() {
-		return (img.getHeight() * height)/100;
+		return (image.getHeight() * height)/100;
 	}
 	@Override
 	public void edit() {
@@ -117,7 +117,7 @@ public class Picture extends Shape{
 					if (!sourceField.getText().equals("don\'t change")) {
 						File f = new File(sourceField.getText());
 						try {
-							cur.img = readImage(f);
+							cur.image = readImage(f);
 						} catch (Exception e2) {
 							JOptionPane.showMessageDialog(editDialog, "Invalid File Destination",
 									"ERROR", JOptionPane.ERROR_MESSAGE);
@@ -149,7 +149,7 @@ public class Picture extends Shape{
 					if (!sourceField.getText().equals("don\'t change")) {
 						File f = new File(sourceField.getText());
 						try {
-							cur.img = readImage(f);
+							cur.image = readImage(f);
 						} catch (Exception e2) {
 							JOptionPane.showMessageDialog(editDialog, "Invalid File Destination",
 									"ERROR", JOptionPane.ERROR_MESSAGE);
@@ -195,11 +195,11 @@ public class Picture extends Shape{
 		}
 		return null;
 	}
-	public BufferedImage getImg() {
-		return img;
+	public BufferedImage getImage() {
+		return this.image;
 	}
-	public void setImg(BufferedImage img) {
-		this.img = img;
+	public void setImage(BufferedImage img) {
+		this.image = img;
 	}
 	public BufferedImage getLastDrawn() {
 		return lastDrawn;
@@ -224,5 +224,24 @@ public class Picture extends Shape{
 	}
 	public void setEffectsManger(EffectsManger effectsManger) {
 		this.effectsManger = effectsManger;
+	}
+	public Picture copy() {
+		BufferedImage image = null;
+		if (this.width != 100 || this.height != 100) {
+			int width = this.width;
+			int height = this.height;
+			this.width = 100;
+			this.height = 100;
+			image = getImageToDisplay();
+			this.height = height;
+			this.width = width;
+		}else {
+			if (lastDrawn != null) {
+				image = lastDrawn;
+			}else {
+				image = getImageToDisplay();
+			}
+		}
+		return new Picture(0, 0, true, "Copy of " + this.getName(), image, getWidth(), getHeight());		
 	}
 }

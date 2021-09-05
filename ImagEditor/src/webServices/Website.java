@@ -17,6 +17,7 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+import log.ExceptionUtils;
 import log.Logger;
 import main.Main;
 
@@ -56,7 +57,7 @@ public class Website {
 		}
         @SuppressWarnings("unused")
 		String urlParams = "exception=" + e.toString().replaceAll(" ", "+") + 
-        		"&description=" + Logger.exceptionToString(e, t, Logger.getErrorCount()).replace(" ", "+") + 
+        		"&description=" + ExceptionUtils.exceptionToString(e, t, Logger.getErrorCount()).replace(" ", "+") + 
 		"&place=" + getErrorPlace(e).replaceAll(" ", "+");
 		System.out.println("reported");
 	}

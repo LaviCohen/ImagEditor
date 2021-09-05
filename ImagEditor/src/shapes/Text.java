@@ -83,9 +83,9 @@ public class Text extends Shape{
 		});
 		colorPanel.add(setColorButton, Translator.getAfterTextBorder());
 		editDialog.add(colorPanel);
-		JButton done = new JButton("done");
+		JButton apply = new JButton("apply");
 		final Text cur = this;
-		done.addActionListener(new ActionListener() {
+		apply.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -107,7 +107,7 @@ public class Text extends Shape{
 				}
 			}
 		});
-		editDialog.add(done);
+		editDialog.add(apply);
 		editDialog.pack();
 		editDialog.setSize(editDialog.getWidth() + 50, editDialog.getHeight());
 		editDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

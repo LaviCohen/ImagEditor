@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.Calendar;
 
 import install.Install;
 
@@ -20,7 +19,7 @@ public class Logger {
 	private static PrintStream liveLogger;
 	private static StringBuffer log = new StringBuffer();
 	private static StringBuffer errorLog = new StringBuffer();
-	private static int errorCount = 0;
+	public static int errorCount = 0;
 	
 	public static void initializeLogger() {
 		logger = new PrintStream(new OutputStream() {
@@ -94,35 +93,6 @@ public class Logger {
 	public static String getErrorLog() {
 		return errorLog.toString();
 	}
-	public static void reportInLog(Exception e, Thread t) {
-		System.out.println("Error has been reported - ID " + ++errorCount);
-		errorLogger.println(exceptionToString(e, t, getErrorCount()));
-	}
-	@SuppressWarnings("static-access")
-	public static String exceptionToString(Exception e, Thread t, int ID) {
-		Calendar c = Calendar.getInstance();
-		String realClass = null;
-		String method = null;
-		int line = -1;
-		StackTraceElement[] elements = e.getStackTrace();
-		for (int i = 0; i < elements.length; i++) {
-			if (elements[i].getLineNumber() > 0) {
-				realClass = elements[i].getClassName();
-				line = elements[i].getLineNumber();
-				method = elements[i].getMethodName();
-				break;
-			}
-		}
-		String s = "<font color = red>" + e.toString()
-				+ "<br/>Place: " + realClass + "(" + (line < 0 ? "Unknown Source" : 
-					"Method: " + method + ", line: " + line) + ")"
-				+ "<br/>Time: " + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND) + " (" + c.get(c.MILLISECOND) + " ms)" 
-				+ "<br/>Thread: " + t.getName()
-				+ "<br/>ID: " + ID
-				+ "</font>"
-				+ "<br/>--------------------<br/>";
-		return s;
-	}
 	public static void stop() {
 		logger = null;
 		errorLogger = null;
@@ -145,5 +115,8 @@ public class Logger {
 	}
 	public static void disableTimeStamp() {
 		Logger.addTimeStamp = false;
+	}
+	public static PrintStream getErrorLogger() {
+		return errorLogger;
 	}
 }

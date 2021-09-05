@@ -103,9 +103,9 @@ public class Picture extends Shape{
 		});
 		sourcePanel.add(browse, Translator.getAfterTextBorder());
 		editDialog.add(sourcePanel);
-		JButton done = new JButton("done");
+		JButton apply = new JButton("apply");
 		final Picture cur = this;
-		done.addActionListener(new ActionListener() {
+		apply.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -136,7 +136,7 @@ public class Picture extends Shape{
 				}
 			}
 		});
-		editDialog.add(done);
+		editDialog.add(apply);
 		editDialog.pack();
 		editDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		editDialog.setVisible(true);

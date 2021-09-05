@@ -74,9 +74,9 @@ public class Rectangle extends Shape{
 		});
 		colorPanel.add(setColorButton, Translator.getAfterTextBorder());
 		editDialog.add(colorPanel);
-		JButton done = new JButton("done");
+		JButton apply = new JButton("apply");
 		final Rectangle cur = this;
-		done.addActionListener(new ActionListener() {
+		apply.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -99,7 +99,7 @@ public class Rectangle extends Shape{
 				}
 			}
 		});
-		editDialog.add(done);
+		editDialog.add(apply);
 		editDialog.pack();
 		editDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		editDialog.setVisible(true);

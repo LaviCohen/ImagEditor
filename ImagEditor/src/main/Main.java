@@ -32,6 +32,7 @@ import install.Install;
 import install.Resources;
 import languages.Translator;
 import log.Logger;
+import log.ExceptionUtils;
 import shapes.Picture;
 import shapes.Rectangle;
 import shapes.Shape;
@@ -120,12 +121,29 @@ public class Main {
 		}
 		Logger.initializeLogger();
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-			
 			@Override
 			public void uncaughtException(Thread t, Throwable e) {
-				Logger.reportInLog((Exception) e, t);
+				System.out.println("Error has been reported - ID " + ++Logger.errorCount);
+				Logger.getErrorLogger().println(ExceptionUtils.exceptionToString((Exception)e, t, Logger.getErrorCount()));;
 				if (Logger.printInConsole) {
 					e.printStackTrace(Logger.err);
+				}
+				int criticality = ExceptionUtils.getCriticality((Exception)e);
+				if(criticality == 2) {
+					int ans = JOptionPane.showOptionDialog(f, "An error has occurred", "Warning", 0, JOptionPane.WARNING_MESSAGE
+							, null, new String[] {"Open Log", "Cancel"}, 0);
+					if (ans == 0) {
+						System.out.println("Opening error log from error message");
+						Actions.action("Log");
+					}
+				}
+				if(criticality > 2) {
+					int ans = JOptionPane.showOptionDialog(f, "An error has occurred", "ERROR", 0, JOptionPane.ERROR_MESSAGE
+							, null, new String[] {"Open Log", "Cancel"}, 0);
+					if (ans == 0) {
+						System.out.println("Opening error log from error message");
+						Actions.action("Log");
+					}
 				}
 			}
 		});

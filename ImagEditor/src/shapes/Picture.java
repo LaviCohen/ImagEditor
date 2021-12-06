@@ -37,12 +37,15 @@ public class Picture extends Shape{
 	
 	//Effects
 	EffectsManger effectsManger = new EffectsManger(this);
+	
+	//Constructor
 	public Picture(int x, int y, boolean visible, String name, BufferedImage img, int width, int height) {
 		super(x, y, visible, name);
 		this.image = img;
 		this.width = width;
 		this.height = height;
 	}
+	//Methods
 	@Override
 	public void draw(Graphics g) {
 		if (lastDrawn == null) {
@@ -190,7 +193,6 @@ public class Picture extends Shape{
 		try {
 			return ImageIO.read(source);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
